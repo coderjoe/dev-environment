@@ -1,8 +1,12 @@
 [user]
+{% if git_name is defined %}
   name = {{ git_name }}
+{% endif %}
+{% if git_email is defined %}
   email = {{ git_email }}
+{% endif %}
 {% if git_signingkey is defined %}
-	signingkey = {{ git_signingkey }}
+  signingkey = {{ git_signingkey }}
 {% endif %}
 {% if github_username is defined and github_token is defined %}
 [github]
@@ -10,8 +14,8 @@
   token = {{ github_token }}
 {% endif %}
 [color]
-	diff = auto
-	status = auto
+  diff = auto
+  status = auto
   branch = auto
 [alias]
   co = checkout
@@ -22,9 +26,9 @@
   gr = !git graph
   hi = !git hist
 [core]
-	excludesfile = ~/.gitignore
+  excludesfile = ~/.gitignore
   autocrlf = input
   safecrlf = true
-	editor = "vim"
+  editor = "vim"
 [apply]
-	whitespace = nowarn
+  whitespace = nowarn

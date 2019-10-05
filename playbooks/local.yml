@@ -5,6 +5,7 @@
   - name: Load the user configuration
     include_vars:
       dir: vars
+    tags: [ always ]
 
   roles:
     # If we tag each rule, then we can run things with the --tags command
