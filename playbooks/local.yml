@@ -32,3 +32,6 @@
       tags: [ development, visual-studio-code ]
     - role: dotnetcore-sdk
       tags: [ development, dotnetcore, dotnetcore-sdk ]
+
+    - role: keybase
+      tags: [ security, encryption, chat, keybase ]

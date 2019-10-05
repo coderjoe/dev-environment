@@ -1,0 +1,14 @@
+---
+
+- name: Add the keybase stable repository
+  apt_repository:
+    repo: deb http://prerelease.keybase.io/deb stable main
+    state: present
+    filename: keybase
+  become: true
+
+- name: Install keybase
+  apt:
+    name: keybase
+    state: present
+  become: true
