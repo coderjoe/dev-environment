@@ -1,0 +1,38 @@
+---
+
+- name: Install zsh
+  apt:
+    name: zsh
+    state: present
+  become: true
+
+- name: Create ~/.dotfiles/zsh
+  file:
+    path: ~/.dotfiles/zsh
+    state: directory
+    mode: '0700'
+
+- name: Copy zsh dotfiles to ~/.dotfiles/
+  copy:
+    src: '{{ item }}'
+    dest: '~/.dotfiles/{{ item }}'
+    mode: '0660'
+  with_items:
+    - zshrc
+    - zlogin
+
+- name: Symlink zsh dotfiles to ~/
+  file:
+    src: ~/.dotfiles/{{ item }}
+    dest: ~/.{{item}}
+    state: link
+  with_items:
+    - zshrc
+    - zlogin
+
+- name: Recursively copy zsh config files to ~/.dotfiles/zsh
+  copy:
+    src: 'zsh'
+    dest: '~/.dotfiles/'
+    mode: '0660'
+    directory_mode: '0700'

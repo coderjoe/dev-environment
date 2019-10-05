@@ -1,0 +1,16 @@
+# source general configuration
+for config in ~/.dotfiles/zsh/*
+do
+  [[ -f "$config" ]] && . "$config"
+done
+
+# Source configuration that is only useful in an interactive shell
+if [[ $- == *"i"* ]] ; then
+    for config in ~/.dotfiles/zsh/interactive/*
+    do
+      [[ -f "$config" ]] && . "$config"
+    done
+fi
+
+# use .localrc for settings specific to one system
+[[ -f ~/.localrc ]] && . ~/.localrc

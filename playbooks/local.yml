@@ -16,3 +16,5 @@
       tags: [ system, security, encryption, gpg, gnupg, pgp ]
     - role: bash
       tags: [ shell, bash ]
+    - role: zsh
+      tags: [ shell, zsh ]
