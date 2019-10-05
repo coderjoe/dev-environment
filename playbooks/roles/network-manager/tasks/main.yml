@@ -1,0 +1,10 @@
+---
+
+- name: Copy over /etc/NetworkManager/conf.d/* config files
+  copy:
+    src: 'conf.d/'
+    dest: '/etc/NetworkManager/conf.d/'
+    mode: '0644'
+  notify:
+    - restart network-manager
+  become: true
