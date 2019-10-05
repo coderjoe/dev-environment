@@ -1,0 +1,47 @@
+---
+
+- name: Add the Microsoft production PPA
+  apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/{{ ansible_distribution | lower }}/{{ ansible_distribution_version }}/prod {{ ansible_distribution_release }} main"
+    state: present
+    filename: microsoft-prod
+  become: true
+
+- name: Install visual studio code
+  apt:
+    name: code
+    state: present
+  become: true
+
+- name: Determine if a user preference file already exists
+  stat:
+    path: ~/.config/Code/User/settings.json
+  register: vscode_preferences
+
+- name: Create the .config directory and ensure its permissions
+  file:
+    path: ~/.config
+    state: directory
+    mode: '0700'
+  when: vscode_preferences.stat.exists == false
+
+- name: Create visual studio code config directory
+  file:
+    path: ~/.config/Code/
+    state: directory
+    mode: '0700'
+  when: vscode_preferences.stat.exists == false
+
+- name: Create the visual studio code user directory
+  file:
+    path: ~/.config/Code/User
+    state: directory
+    mode: '0770'
+  when: vscode_preferences.stat.exists == false
+
+- name: Create the default settings.json file if it doesn't already exist
+  copy:
+    src: settings.json
+    dest: ~/.config/Code/User/settings.json
+    mode: '0660'
+  when: vscode_preferences.stat.exists == false
