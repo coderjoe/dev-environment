@@ -4,6 +4,7 @@
   git:
     repo: https://github.com/nvm-sh/nvm.git
     dest: ~/.nvm
+    version: master
 
 - name: Install the nvm bash config files to ~/.dotfiles/bash
   copy:
