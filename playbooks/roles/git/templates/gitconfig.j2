@@ -1,0 +1,30 @@
+[user]
+  name = {{ git_name }}
+  email = {{ git_email }}
+{% if git_signingkey is defined %}
+	signingkey = {{ git_signingkey }}
+{% endif %}
+{% if github_username is defined and github_token is defined %}
+[github]
+  user = {{ github_username }}
+  token = {{ github_token }}
+{% endif %}
+[color]
+	diff = auto
+	status = auto
+  branch = auto
+[alias]
+  co = checkout
+  graph = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset)\t%C(bold green)%d%C(reset) %C(white)%s%C(reset) - %C(bold white)%an%C(reset) %C(bold yellow)(%ar)%C(reset)' --all
+  hist = log --pretty=format:\"%C(bold blue)%h%C(reset) %C(bold yellow)%ad%C(reset) | %s%C(bold green)%d%C(reset) %C(bold white)[%an]%C(reset)\" --graph --date=short
+  l = log --decorate=short
+  serve = !git daemon --reuseaddr --verbose --base-path=. --export-all ./.git
+  gr = !git graph
+  hi = !git hist
+[core]
+	excludesfile = ~/.gitignore
+  autocrlf = input
+  safecrlf = true
+	editor = "vim"
+[apply]
+	whitespace = nowarn

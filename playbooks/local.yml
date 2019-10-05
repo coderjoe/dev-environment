@@ -18,3 +18,5 @@
       tags: [ shell, bash ]
     - role: zsh
       tags: [ shell, zsh ]
+    - role: git
+      tags: [ development, git ]

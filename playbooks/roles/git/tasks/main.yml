@@ -1,0 +1,35 @@
+---
+
+- name: Install git
+  apt:
+    name: git
+    state: present
+  become: true
+
+- name: Install gitk
+  apt:
+    name: gitk
+    state: present
+  become: true
+
+- name: Create .gitconfig
+  template:
+    src: gitconfig.j2
+    dest: ~/.dotfiles/gitconfig
+    mode: '0660'
+
+- name: Create .gitk
+  copy:
+    src: gitk
+    dest: ~/.dotfiles/gitk
+    mode: '0660'
+
+- name: Symlink git dotfiles to ~/
+  file:
+    src: ~/.dotfiles/{{ item }}
+    dest: ~/.{{item}}
+    state: link
+    force: yes
+  with_items:
+    - gitk
+    - gitconfig
