@@ -35,3 +35,5 @@
 
     - role: keybase
       tags: [ security, encryption, chat, keybase ]
+    - role: slack
+      tags: [ chat, slack ]

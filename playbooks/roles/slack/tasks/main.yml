@@ -1,0 +1,8 @@
+---
+
+- name: Install Slack via snap from latest/stable
+  snap:
+    name: slack
+    channel: latest/stable
+    classic: true #unforutnately slack currently requires classic confinement
+  become: true
