@@ -1,0 +1,34 @@
+---
+
+- name: Create ~/.dotfiles/bash
+  file:
+    path: ~/.dotfiles/bash
+    state: directory
+    mode: '0700'
+
+- name: Copy bash dotfiles to ~/.dotfiles/
+  copy:
+    src: '{{ item }}'
+    dest: '~/.dotfiles/{{ item }}'
+    mode: '0660'
+  with_items:
+    - bashrc
+    - bash_profile
+    - bash_logout
+
+- name: Symlink bash dotfiles to ~/
+  file:
+    src: ~/.dotfiles/{{ item }}
+    dest: ~/.{{item}}
+    state: link
+  with_items:
+    - bashrc
+    - bash_profile
+    - bash_logout
+
+- name: Recursively copy bash config files to ~/.dotfiles/bash
+  copy:
+    src: 'bash'
+    dest: '~/.dotfiles/'
+    mode: '0660'
+    directory_mode: '0700'

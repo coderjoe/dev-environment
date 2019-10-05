@@ -14,3 +14,5 @@
       tags: [ system, network-manager ]
     - role: gpg
       tags: [ system, security, encryption, gpg, gnupg, pgp ]
+    - role: bash
+      tags: [ shell, bash ]
