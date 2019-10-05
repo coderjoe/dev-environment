@@ -1,0 +1,12 @@
+- name: Set up a local development laptop
+  hosts: local
+
+  pre_tasks:
+  - name: Load the user configuration
+    include_vars:
+      dir: vars
+
+  roles:
+    # If we tag each rule, then we can run things with the --tags command
+    - role: ansible
+      tags: [ system, development, ansible ]

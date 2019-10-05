@@ -1,0 +1,4 @@
+*.retry
+.vault-password
+vault-password.gpg
+playbooks/vars/*

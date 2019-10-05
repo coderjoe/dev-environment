@@ -1,0 +1,14 @@
+---
+
+- name: Add the ppa ppa:ansible/ansible
+  apt_repository:
+    repo: ppa:ansible/ansible
+    state: present
+    filename: ppa-ansible
+  become: true
+
+- name: Install ansible
+  apt:
+    name: ansible
+    state: latest
+  become: true
