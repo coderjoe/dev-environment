@@ -1,0 +1,20 @@
+---
+
+- name: Install nvm to ~/.nvm
+  git:
+    repo: https://github.com/nvm-sh/nvm.git
+    dest: ~/.nvm
+
+- name: Install the nvm bash config files to ~/.dotfiles/bash
+  copy:
+    src: 'bash/'
+    dest: '~/.dotfiles/bash/'
+    mode: '0660'
+    directory_mode: '0700'
+
+- name: Install the nvm zsh config files to ~/.dotfiles/zsh
+  copy:
+    src: 'zsh/'
+    dest: '~/.dotfiles/zsh/'
+    mode: '0660'
+    directory_mode: '0700'

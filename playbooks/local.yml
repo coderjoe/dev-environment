@@ -26,3 +26,5 @@
       tags: [ shell, development, tmux ]
     - role: ruby
       tags: [ development, ruby ]
+    - role: nodejs
+      tags: [ development, nodejs ]
