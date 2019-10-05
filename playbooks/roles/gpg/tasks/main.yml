@@ -1,0 +1,47 @@
+---
+
+- name: Install gpg
+  apt:
+    name: gpg
+    state: present
+  become: true
+
+- name: Install scdaemon for smartcard support
+  apt:
+    name: scdaemon
+    state: present
+  become: true
+
+- name: Recursively copy gnupg config files to ~/.dotfiles/gnupg
+  copy:
+    src: 'gnupg/'
+    dest: '~/.dotfiles/gnupg/'
+    mode: '0600'
+    directory_mode: '0700'
+
+- name: Ensure .dotfiles/gnupg directory has the correct permissions
+  file:
+    path: ~/.dotfiles/gnupg
+    state: directory
+    mode: '0700'
+
+- name: Ensure .gnupg directory exists and has the correct permissions
+  file:
+    path: '~/.gnupg'
+    state: directory
+    mode: '0700'
+
+- name: Symlink gnupg configuration directory to ~/.gnupg
+  file:
+    src: '~/.dotfiles/gnupg/{{ item }}'
+    dest: '~/.gnupg/{{ item }}'
+    state: link
+    force: yes
+  with_items:
+    - gpg.conf
+    - dirmngr.conf
+
+- name: Remove the old keyserver-certs directory due to switch to dirmngr
+  file:
+    path: ~/.gnupg/keyserver-certs
+    state: absent

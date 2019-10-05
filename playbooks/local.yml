@@ -12,3 +12,5 @@
       tags: [ system, development, ansible ]
     - role: network-manager
       tags: [ system, network-manager ]
+    - role: gpg
+      tags: [ system, security, encryption, gpg, gnupg, pgp ]
