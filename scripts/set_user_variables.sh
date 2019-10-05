@@ -16,5 +16,7 @@ echo '---' > "$VAR_FILENAME"
 [[ ! -z "$git_username" ]] && echo "git_name: $git_username" >> "$VAR_FILENAME"
 [[ ! -z "$git_email" ]] && echo "git_email: $git_email" >> "$VAR_FILENAME"
 [[ ! -z "$git_signingkey" ]] && echo "git_signingkey: $git_signingkey" >> "$VAR_FILENAME"
-[[ ! -z "$git_username" ]] && echo "github_username: $github_username" >> "$VAR_FILENAME"
-[[ ! -z "$git_token" ]] && echo "github_token: $github_token" >> "$VAR_FILENAME"
+[[ ! -z "$github_username" ]] && echo "github_username: $github_username" >> "$VAR_FILENAME"
+[[ ! -z "$github_token" ]] && echo "github_token: $github_token" >> "$VAR_FILENAME"
+
+exit 0
