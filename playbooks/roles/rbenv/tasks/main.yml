@@ -1,0 +1,49 @@
+---
+
+- name: Install ruby build prerequisite libraries
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - autoconf
+      - bison
+      - build-essential
+      - libssl-dev
+      - libyaml-dev
+      - libreadline6-dev
+      - zlib1g-dev
+      - libncurses5-dev
+      - libffi-dev
+      - libgdbm5
+      - libgdbm-dev
+  become: true
+
+- name: Install rbenv to ~/.rbenv
+  git:
+    repo: https://github.com/rbenv/rbenv.git
+    dest: ~/.rbenv
+
+- name: Ensure ~/.rbenv/plugins exists
+  file:
+    path: ~/.rbenv/plugins
+    state: directory
+    mode: '0775'
+
+- name: Install ruby-build to ~/.rbenv/plugins
+  git:
+    repo: https://github.com/rbenv/ruby-build.git
+    dest: ~/.rbenv/plugins/ruby-build
+
+- name: Install the rbenv bash config files to ~/.dotfiles/bash
+  copy:
+    src: 'bash/'
+    dest: '~/.dotfiles/bash/'
+    mode: '0660'
+    directory_mode: '0700'
+
+- name: Install the rbenv zsh config files to ~/.dotfiles/zsh
+  copy:
+    src: 'zsh/'
+    dest: '~/.dotfiles/zsh/'
+    mode: '0660'
+    directory_mode: '0700'

@@ -22,3 +22,5 @@
       tags: [ development, git ]
     - role: tmux
       tags: [ shell, development, tmux ]
+    - role: ruby
+      tags: [ development, ruby ]
