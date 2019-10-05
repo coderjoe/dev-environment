@@ -1,0 +1,17 @@
+---
+
+- name: Install the ASP.NET Core runtime
+  apt:
+    name: aspnetcore-runtime-3.0
+    state: present
+  become: true
+
+- name: Install ASP.NET Core runtime shell config files for zsh and bash
+  copy:
+    src: 'shell/'
+    dest: "{{ item }}"
+    mode: '0660'
+    directory_mode: '0700'
+  with_items:
+    - '~/.dotfiles/bash/'
+    - '~/.dotfiles/zsh/'

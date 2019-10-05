@@ -1,0 +1,8 @@
+---
+
+- name: Add the Microsoft production PPA
+  apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/{{ ansible_distribution | lower }}/{{ ansible_distribution_version }}/prod {{ ansible_distribution_release }} main"
+    state: present
+    filename: microsoft-prod
+  become: true

@@ -1,0 +1,3 @@
+dependencies:
+  - role: microsoft-production-ppa
+  - role: aspnetcore-runtime

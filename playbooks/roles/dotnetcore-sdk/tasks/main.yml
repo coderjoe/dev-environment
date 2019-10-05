@@ -1,0 +1,17 @@
+---
+
+- name: Install the .NET Core SDK
+  apt:
+    name: dotnet-sdk-3.0
+    state: present
+  become: true
+
+- name: Install .NET Core runtime shell config files for zsh and bash
+  copy:
+    src: 'shell/'
+    dest: "{{ item }}"
+    mode: '0660'
+    directory_mode: '0700'
+  with_items:
+    - '~/.dotfiles/bash/'
+    - '~/.dotfiles/zsh/'

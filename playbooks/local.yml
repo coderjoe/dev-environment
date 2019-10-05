@@ -30,3 +30,5 @@
       tags: [ development, nodejs ]
     - role: visual-studio-code
       tags: [ development, visual-studio-code ]
+    - role: dotnetcore-sdk
+      tags: [ development, dotnetcore, dotnetcore-sdk ]
