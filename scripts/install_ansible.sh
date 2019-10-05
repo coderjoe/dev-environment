@@ -15,5 +15,12 @@ if [ $? -eq 1 ]; then
 	fi
 fi
 
-echo "Upgrading to the latest stable ansible..."
-ansible-playbook --ask-become-pass playbooks/install_ansible.yml
+ansible_ppa="ppa.launchpad.net/ansible/ansible"
+if ! grep -q "^deb .*$ansible_ppa" /etc/apt/sources.list /etc/apt/sources.list.d/*
+then
+	echo "The ansible ppa does not appear to be installed."
+	echo "Upgrading to the latest stable ansible..."
+	ansible-playbook --ask-become-pass playbooks/install_ansible.yml
+else
+	echo "The ansible ppa already appears to be installed. Skipping ansible upgrade..."
+fi
