@@ -1,0 +1,36 @@
+---
+
+- name: Install tmux
+  apt:
+    name: tmux
+    state: present
+  become: true
+
+- name: Install the powerline font
+  apt:
+    name: fonts-powerline
+    state: present
+  become: true
+
+- name: Copy tmux dotfiles to ~/.dotfiles/
+  copy:
+    src: '{{ item }}'
+    dest: '~/.dotfiles/{{ item }}'
+    mode: '0660'
+  with_items:
+    - tmux.conf
+
+- name: Symlink tmux dotfiles to ~/
+  file:
+    src: ~/.dotfiles/{{ item }}
+    dest: ~/.{{item}}
+    state: link
+  with_items:
+    - tmux.conf
+
+- name: Recursively copy tmux config files to ~/.dotfiles/tmux
+  copy:
+    src: 'tmux'
+    dest: '~/.dotfiles/'
+    mode: '0660'
+    directory_mode: '0700'

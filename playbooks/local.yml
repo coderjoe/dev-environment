@@ -20,3 +20,5 @@
       tags: [ shell, zsh ]
     - role: git
       tags: [ development, git ]
+    - role: tmux
+      tags: [ shell, development, tmux ]
