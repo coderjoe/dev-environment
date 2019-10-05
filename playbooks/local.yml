@@ -18,6 +18,8 @@
       tags: [ shell, bash ]
     - role: zsh
       tags: [ shell, zsh ]
+    - role: vim
+      tags: [ shell, development, vim ]
     - role: git
       tags: [ development, git ]
     - role: tmux

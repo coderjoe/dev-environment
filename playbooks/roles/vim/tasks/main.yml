@@ -1,0 +1,50 @@
+---
+
+- name: Install vim
+  apt:
+    name: vim
+    state: present
+  become: true
+
+- name: Install the powerline font
+  apt:
+    name: fonts-powerline
+    state: present
+  become: true
+
+- name: Copy vim dotfiles to ~/.dotfiles/
+  copy:
+    src: '{{ item }}'
+    dest: '~/.dotfiles/{{ item }}'
+    mode: '0660'
+  with_items:
+    - vimrc
+
+- name: Symlink vim dotfiles to ~/
+  file:
+    src: ~/.dotfiles/{{ item }}
+    dest: ~/.{{item}}
+    state: link
+  with_items:
+    - vimrc
+
+- name: Recursively copy vim config files to ~/.dotfiles/vim
+  copy:
+    src: 'vim'
+    dest: '~/.dotfiles/'
+    mode: '0660'
+    directory_mode: '0700'
+
+- name: Symlink vim config directory to ~/.vim
+  file:
+    src: ~/.dotfiles/vim
+    dest: ~/.vim
+    state: link
+
+- name: Install Vundle.vim from git source
+  git:
+    repo: https://github.com/VundleVim/Vundle.vim.git
+    dest: ~/.dotfiles/vim/bundle/Vundle.vim
+
+- name: Install the Vundle.vim packages
+  command: vim +PluginInstall +qall
