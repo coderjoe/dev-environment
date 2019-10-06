@@ -38,3 +38,6 @@
       tags: [ security, encryption, chat, keybase ]
     - role: slack
       tags: [ chat, slack ]
+
+    - role: spotify
+      tags: [ entertainment, music, spotify ]
