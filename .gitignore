@@ -1,4 +1,4 @@
 *.retry
 .vault-password
 vault-password.gpg
-playbooks/vars/*
+playbooks/vars
