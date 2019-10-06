@@ -1,14 +1,6 @@
 ---
 
-- name: Add the keybase stable repository
-  apt_repository:
-    repo: deb http://prerelease.keybase.io/deb stable main
-    state: present
-    filename: keybase
-  become: true
-
-- name: Install keybase
+- name: Install keybase via the official deb package
   apt:
-    name: keybase
-    state: present
+    deb: https://prerelease.keybase.io/keybase_amd64.deb
   become: true
