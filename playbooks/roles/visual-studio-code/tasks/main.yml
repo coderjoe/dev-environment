@@ -1,16 +1,10 @@
 ---
 
-- name: Add the Microsoft production PPA
-  apt_repository:
-    repo: "deb [arch=amd64] https://packages.microsoft.com/{{ ansible_distribution | lower }}/{{ ansible_distribution_version }}/prod {{ ansible_distribution_release }} main"
-    state: present
-    filename: microsoft-prod
-  become: true
-
 - name: Install visual studio code
-  apt:
+  snap:
     name: code
-    state: present
+    classic: yes
+    channel: latest/stable
   become: true
 
 - name: Determine if a user preference file already exists
