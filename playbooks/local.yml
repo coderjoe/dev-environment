@@ -34,6 +34,9 @@
     - role: dotnetcore-sdk
       tags: [ development, dotnetcore, dotnetcore-sdk ]
 
+    - role: tor
+      tags: [ privacy, security ]
+
     - role: keybase
       tags: [ security, encryption, chat, keybase ]
     - role: slack

@@ -1,0 +1,22 @@
+---
+
+- name: Add the torproject.org gpg package signing key
+  apt_key:
+    id: A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+    url: https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc
+    state: present
+  become: true
+
+- name: Add the torproject.org binary ppa
+  apt_repository:
+    repo: "deb https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
+    filename: torproject-org
+    state: present
+  become: true
+
+- name: Add the torproject.org source ppa
+  apt_repository:
+    repo: "deb-src https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
+    filename: torproject-org-src
+    state: present
+  become: true

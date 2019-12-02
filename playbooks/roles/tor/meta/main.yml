@@ -1,0 +1,4 @@
+dependencies:
+  - role: apt
+  - role: privoxy
+  - role: torproject-ppa
