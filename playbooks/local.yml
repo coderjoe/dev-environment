@@ -25,6 +25,8 @@
       tags: [ development, git ]
     - role: tmux
       tags: [ shell, development, tmux ]
+    - role: pass
+      tags: [ system, security, encryption ]
     - role: ruby
       tags: [ development, ruby ]
     - role: nodejs

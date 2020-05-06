@@ -1,0 +1,19 @@
+---
+
+- name: Install the pass password manager
+  apt:
+    name: pass
+    state: present
+  become: true
+
+- name: Install the pass git credential integration plugin
+  apt:
+    name: pass-git-helper
+    state: present
+  become: true
+
+- name: Install the pass-tail extension to avoid printing passwords
+  apt:
+    name: pass-extension-tail
+    state: present
+  become: true
