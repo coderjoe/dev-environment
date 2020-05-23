@@ -1,0 +1,14 @@
+---
+- name: Add the Mono project PPA signing key
+  apt_key:
+    id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+    keyserver: hkp://keyserver.ubuntu.com:80
+    state: present
+  become: true
+
+- name: Add the Mono Project PPA
+  apt_repository:
+    repo: "deb https://download.mono-project.com/repo/ubuntu stable-{{ ansible_distribution_release }}  main"
+    filename: torproject-org
+    state: present
+  become: true

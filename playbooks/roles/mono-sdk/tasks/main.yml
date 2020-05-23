@@ -1,0 +1,6 @@
+---
+- name: Install the Mono development package
+  apt:
+    name: mono-devel
+    state: present
+  become: true

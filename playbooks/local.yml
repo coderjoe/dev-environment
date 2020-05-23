@@ -35,6 +35,8 @@
       tags: [ development, visual-studio-code ]
     - role: dotnetcore-sdk
       tags: [ development, dotnetcore, dotnetcore-sdk ]
+    - role: mono-sdk
+      tags: [ development, mono ]
 
     - role: tor
       tags: [ privacy, security ]
