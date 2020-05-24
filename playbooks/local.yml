@@ -37,6 +37,8 @@
       tags: [ development, dotnetcore, dotnetcore-sdk ]
     - role: mono-sdk
       tags: [ development, mono ]
+    - role: unity
+      tags: [ development, unity ]
 
     - role: tor
       tags: [ privacy, security ]

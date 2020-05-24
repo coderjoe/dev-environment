@@ -1,0 +1,5 @@
+dependencies:
+  - role: aspnetcore-runtime
+  - role: dotnetcore-sdk
+  - role: mono-project-ppa
+  - role: visual-studio-code
