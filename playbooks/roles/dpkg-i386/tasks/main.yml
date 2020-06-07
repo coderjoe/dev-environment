@@ -1,0 +1,11 @@
+---
+- name: Check current dpkg architectures
+  shell: cat /var/lib/dpkg/arch
+  register: arch_file
+  become: true
+
+- name: Add i386 architecture support
+  command:
+    name: dpkg --add-architecture i386
+  when: arch_file.stdout.find('i386') != 1
+  become: true

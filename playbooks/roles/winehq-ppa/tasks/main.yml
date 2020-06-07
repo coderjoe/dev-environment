@@ -1,0 +1,14 @@
+---
+- name: Add the winehq.org gpg package signing key
+  apt_key:
+    id: 4A9E0F4360DC0D17956D904E818A435C5FCBF54A
+    url: https://dl.winehq.org/wine-builds/Release.key
+    state: present
+  become: true
+
+- name: Add the winehq.org binary ppa
+  apt_repository:
+    repo: "deb https://dl.winehq.org/wine-builds/debian/ {{ ansible_distribution_release }}  main"
+    filename: winehq-org
+    state: present
+  become: true
