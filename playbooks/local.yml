@@ -27,6 +27,8 @@
       tags: [ shell, development, tmux ]
     - role: pass
       tags: [ system, security, encryption ]
+    - role: golang
+      tags: [ development, golang, go ]
     - role: ruby
       tags: [ development, ruby ]
     - role: nodejs

@@ -1,0 +1,48 @@
+---
+
+- name: Make the golang base directory
+  file:
+    path: "{{ golang_base_dir }}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+  become: true
+
+- name: Make the golang installer archive directory
+  file:
+    path: "{{ golang_archive_dir }}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+  become: true
+
+- name: Download the golang archive
+  get_url:
+    url: "{{ golang_url }}"
+    dest: "{{ golang_archive_dir }}"
+    checksum: "{{ golang_checksum }}"
+    owner: root
+    group: root
+    mode: '0644'
+  register: golang_downloaded_file
+  become: true
+
+- name: Install golang archive
+  unarchive:
+    src: "{{ golang_downloaded_file.dest }}"
+    dest: "{{ golang_root_dir }}"
+  become: true
+
+- name: Create the bash environment files
+  template:
+    src: bash/golang.j2
+    dest: ~/.dotfiles/bash/golang
+    mode: '0660'
+
+- name: Create the zsh environment files
+  template:
+    src: zsh/golang.j2
+    dest: ~/.dotfiles/zsh/golang
+    mode: '0660'
