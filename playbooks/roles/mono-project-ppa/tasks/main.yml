@@ -1,4 +1,9 @@
 ---
+
+- name: Determine if Mono project PPA will support i386
+  set_fact:
+    mono_ppa_supports_i386: "{{ ansible_distribution_major_version < 20 }}"
+
 - name: Add the Mono project PPA signing key
   apt_key:
     id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
@@ -6,9 +11,18 @@
     state: present
   become: true
 
-- name: Add the Mono Project PPA
+- name: Add the Mono Project PPA with i386 support
   apt_repository:
     repo: "deb https://download.mono-project.com/repo/ubuntu stable-{{ ansible_distribution_release }}  main"
     filename: torproject-org
     state: present
   become: true
+  when: mono_ppa_supports_i386
+
+- name: Add the Mono Project PPA without i386 support
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.mono-project.com/repo/ubuntu stable-{{ ansible_distribution_release }}  main"
+    filename: torproject-org
+    state: present
+  become: true
+  when: not mono_ppa_supports_i386

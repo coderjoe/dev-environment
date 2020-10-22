@@ -1,5 +1,9 @@
 ---
 
+- name: Determine if the tor ppa will support i386
+  set_fact:
+    tor_ppa_supports_i386: "{{ ansible_distribution_major_version < 20}}"
+
 - name: Add the torproject.org gpg package signing key
   apt_key:
     id: A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
@@ -7,16 +11,34 @@
     state: present
   become: true
 
-- name: Add the torproject.org binary ppa
+- name: Add the torproject.org binary ppa with i386 support
   apt_repository:
     repo: "deb https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
     filename: torproject-org
     state: present
   become: true
+  when: tor_ppa_supports_i386
 
-- name: Add the torproject.org source ppa
+- name: Add the torproject.org source ppa with i386 support
   apt_repository:
     repo: "deb-src https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
     filename: torproject-org-src
     state: present
   become: true
+  when: tor_ppa_supports_i386
+
+- name: Add the torproject.org binary ppa without i386 support
+  apt_repository:
+    repo: "deb [arch=amd64] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
+    filename: torproject-org
+    state: present
+  become: true
+  when: not tor_ppa_supports_i386
+
+- name: Add the torproject.org source ppa without i386 support
+  apt_repository:
+    repo: "deb-src [arch=amd64] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
+    filename: torproject-org-src
+    state: present
+  become: true
+  when: not tor_ppa_supports_i386
