@@ -6,9 +6,11 @@
     state: present
     filename: ppa-ansible
   become: true
+  when: not skip_ansible_install is defined
 
 - name: Install ansible
   apt:
     name: ansible
     state: latest
   become: true
+  when: not skip_ansible_install is defined
