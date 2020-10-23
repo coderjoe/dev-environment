@@ -17,3 +17,17 @@
     name: pass-extension-tail
     state: present
   become: true
+
+- name: Install pass-extension-otp to manage one-time-password tokens
+  apt:
+    name: pass-extension-otp
+    state: present
+  become: true
+  when: ansible_distribution_major_version >= 20
+
+- name: Install pass-extension-tomb to support encrypting password stores with tomb
+  apt:
+    name: pass-extension-tomb
+    state: present
+  become: true
+  when: ansible_distribution_major_version >= 20
