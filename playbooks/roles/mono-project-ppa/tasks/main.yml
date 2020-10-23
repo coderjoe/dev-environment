@@ -14,7 +14,7 @@
 - name: Add the Mono Project PPA with i386 support
   apt_repository:
     repo: "deb https://download.mono-project.com/repo/ubuntu stable-{{ ansible_distribution_release }}  main"
-    filename: torproject-org
+    filename: mono-official-stable
     state: present
   become: true
   when: mono_ppa_supports_i386
@@ -22,7 +22,7 @@
 - name: Add the Mono Project PPA without i386 support
   apt_repository:
     repo: "deb [arch=amd64] https://download.mono-project.com/repo/ubuntu stable-{{ ansible_distribution_release }}  main"
-    filename: torproject-org
+    filename: mono-official-stable
     state: present
   become: true
   when: not mono_ppa_supports_i386
