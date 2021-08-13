@@ -55,8 +55,14 @@
     mode: '0660'
     directory_mode: '0700'
 
-- name: Symlink bazaar config directory to ~/.bazaar
+- name: Bazaar requires its config directory to be a real directory
   file:
-    src: ~/.dotfiles/bazaar
-    dest: ~/.bazaar
+    path: ~/.bazaar
+    state: directory
+    mode: '0700'
+
+- name: Symlink bazaar config file to ~/.bazaar/bazaar.conf
+  file:
+    src: ~/.dotfiles/bazaar/bazaar.conf
+    dest: ~/.bazaar/bazaar.conf
     state: link
