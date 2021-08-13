@@ -1,8 +1,20 @@
 ---
 
-- name: Install the ASP.NET Core runtime
+- name: Uninstall old ASP.NET Core runtimes
   apt:
-    name: aspnetcore-runtime-3.0
+    name: "{{ packages }}"
+    state: absent
+    purge: yes
+  vars:
+    packages:
+      - aspnetcore-runtime-2.1
+      - aspnetcore-runtime-3.0
+      - aspnetcore-runtime-3.1
+  become: true
+
+- name: Install the ASP.NET Core 5.0 runtime
+  apt:
+    name: aspnetcore-runtime-5.0
     state: present
   become: true
 

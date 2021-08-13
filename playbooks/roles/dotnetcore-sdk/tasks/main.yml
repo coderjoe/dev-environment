@@ -1,22 +1,20 @@
 ---
 
-- name: Remove the old .NET Core SDK 2.2
+- name: Remove old .NET Core SDKs
   apt:
-    name: dotnet-sdk-2.2
+    name: "{{ packages }}"
     state: absent
     purge: yes
+  vars:
+    packages:
+      - dotnet-sdk-2.1
+      - dotnet-sdk-3.0
+      - dotnet-sdk-3.1
   become: true
 
-- name: Remove the old .NET Core SDK 3.0
+- name: Install the .NET Core SDK 5.0
   apt:
-    name: dotnet-sdk-3.0
-    state: absent
-    purge: yes
-  become: true
-
-- name: Install the .NET Core SDK
-  apt:
-    name: dotnet-sdk-3.1
+    name: dotnet-sdk-5.0
     state: present
   become: true
 
