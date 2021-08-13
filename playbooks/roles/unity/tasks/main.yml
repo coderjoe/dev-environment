@@ -79,6 +79,11 @@
     path: ~/Apps/Unity/squashfs-root
     state: absent
 
+- name: Create the applications share directory if it doesn't exist
+  file:
+    path: '~/.local/share/applications'
+    state: directory
+
 - name: Add UnityHub to the application launcher
   template:
     src: "local/share/applications/{{ item }}.j2"
