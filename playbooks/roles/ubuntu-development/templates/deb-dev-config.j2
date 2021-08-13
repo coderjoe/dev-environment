@@ -1,0 +1,6 @@
+{% if deb_fullname is defined %}
+export DEBFULLNAME="{{ deb_fullname }}"
+{% endif %}
+{% if deb_email is defined %}
+export DEBEMAIL="{{ deb_email }}"
+{% endif %}

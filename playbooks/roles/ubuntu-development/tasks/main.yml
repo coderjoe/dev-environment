@@ -1,0 +1,62 @@
+---
+
+- name: Install ubuntu development packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - ubuntu-dev-tools
+      - pbuilder
+      - apt-file
+      - bzr-builddeb
+  become: true
+
+- name: Copy pbuilderrc dotfile to ~/.dotfiles/
+  copy:
+    src: '{{ item }}'
+    dest: '~/.dotfiles/{{ item }}'
+    mode: '0660'
+  with_items:
+    - pbuilderrc
+
+- name: Symlink pbuilderrc dotfile to ~/
+  file:
+    src: ~/.dotfiles/{{ item }}
+    dest: ~/.{{item}}
+    state: link
+  with_items:
+    - pbuilderrc
+
+- name: Install deb development config files to ~/.dotfiles/bash/deb-dev-config
+  template:
+    src: deb-dev-config.j2
+    dest: '~/.dotfiles/bash/deb-dev-config'
+    mode: '0660'
+    directory_mode: '0700'
+
+- name: Install deb development config files to ~/.dotfiles/zsh/deb-dev-config
+  template:
+    src: deb-dev-config.j2
+    dest: '~/.dotfiles/zsh/deb-dev-config'
+    mode: '0660'
+    directory_mode: '0700'
+
+- name: Create ~/.dotfiles/bazaar/`
+  file:
+    path: ~/.dotfiles/bazaar
+    state: directory
+    mode: '0700'
+
+- name: Create bazaar.conf file
+  template:
+    src: bazaar.conf.j2
+    dest: '~/.dotfiles/bazaar/bazaar.conf'
+    mode: '0660'
+    directory_mode: '0700'
+
+- name: Symlink bazaar config directory to ~/.bazaar
+  file:
+    src: ~/.dotfiles/bazaar
+    dest: ~/.bazaar
+    state: link
