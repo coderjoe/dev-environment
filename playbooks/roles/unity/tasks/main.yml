@@ -26,7 +26,7 @@
   get_url:
     url: https://public-cdn.cloud.unity3d.com/hub/prod/UnityHub.AppImage
     dest: ~/Apps/Unity/UnityHub.AppImage
-    checksum: sha256:dea24cb7c5729fa1776580b744a836d9e0bcea4a87e543737e70503ba97cd926
+    checksum: sha256:9aca948666196b2314f5a1bfe44b338a2404613e3911271b03bf6ac0f6341ab4
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: '0700'
