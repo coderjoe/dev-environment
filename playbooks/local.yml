@@ -9,50 +9,68 @@
 
   roles:
     # If we tag each rule, then we can run things with the --tags command
+    #
+
+    # Core systej
+    #
     - role: ansible
-      tags: [ system, development, ansible ]
+      tags: [ default, system, development, ansible ]
     - role: network-manager
-      tags: [ system, network-manager ]
+      tags: [ default, system, network-manager ]
     - role: gpg
-      tags: [ system, security, encryption, gpg, gnupg, pgp ]
+      tags: [ default, system, security, encryption, gpg, gnupg, pgp ]
+
+    # Shells
+    #
     - role: bash
-      tags: [ shell, bash ]
+      tags: [ default, shell, bash ]
     - role: zsh
-      tags: [ shell, zsh ]
-    - role: vim
-      tags: [ shell, development, vim ]
-    - role: git
-      tags: [ development, git ]
+      tags: [ default, shell, zsh ]
     - role: tmux
-      tags: [ shell, development, tmux ]
+      tags: [ default, shell, development, tmux ]
+    - role: git
+      tags: [ default, development, git ]
     - role: pass
-      tags: [ system, security, encryption ]
+      tags: [ default, system, security, encryption ]
+
+    # Programming languages
+    #
     - role: golang
-      tags: [ development, golang, go ]
+      tags: [ golang, go ]
     - role: ruby
-      tags: [ development, ruby ]
+      tags: [ rubylang, ruby ]
     - role: nodejs
-      tags: [ development, nodejs ]
-    - role: visual-studio-code
-      tags: [ development, visual-studio-code ]
+      tags: [ nodejs ]
     - role: dotnetcore-sdk
       tags: [ development, dotnetcore, dotnetcore-sdk ]
     - role: mono-sdk
-      tags: [ development, mono ]
-    - role: godot-engine
-      tags: [ development, godot ]
+      tags: [ mono-sdk, mono ]
     - role: ubuntu-development
-      tags: [ development, ubuntu-development ]
-    - role: unity
-      tags: [ development, unity ]
+      tags: [ ubuntu-development ]
 
+    # Editors
+    #
+    - role: vim
+      tags: [ default, shell, development, vim ]
+    - role: visual-studio-code
+      tags: [ visual-studio-code ]
+    - role: godot-engine
+      tags: [ godot-engine, godot ]
+    - role: unity
+      tags: [ unity-engine, unity ]
+
+    # Privacy tools
+    #
     - role: tor
       tags: [ privacy, security ]
 
+    # Social tools
+    #
     - role: keybase
       tags: [ security, encryption, chat, keybase ]
     - role: slack
       tags: [ chat, slack ]
 
+    # Entertainment
     - role: spotify
       tags: [ entertainment, music, spotify ]

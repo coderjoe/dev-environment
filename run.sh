@@ -20,5 +20,9 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
+# Make sure the default run only installs the basics
+# forcing the use of tags to install specifics
+ANSIBLE_ARGS="${@:-"--tags default"}"
+
 echo "Running playbook..."
-./scripts/run_playbook.sh $@
+./scripts/run_playbook.sh $ANSIBLE_ARGS
