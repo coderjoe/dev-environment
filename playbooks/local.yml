@@ -39,6 +39,8 @@
       tags: [ development, dotnetcore, dotnetcore-sdk ]
     - role: mono-sdk
       tags: [ development, mono ]
+    - role: godot-engine
+      tags: [ development, godot ]
     - role: ubuntu-development
       tags: [ development, ubuntu-development ]
     - role: unity

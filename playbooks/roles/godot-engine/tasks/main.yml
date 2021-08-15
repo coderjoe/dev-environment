@@ -1,0 +1,44 @@
+---
+- name: Ensure the user specific App directories exist
+  file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0700'
+    state: directory
+  with_items:
+    - ~/Apps/
+    - ~/Apps/bin
+
+- name: Create the godot application directories
+  file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0700'
+    state: directory
+  with_items:
+    - "{{ godot_sdk_install_base_directory }}"
+    - "{{ godot_sdk_install_archives_directory }}"
+
+- name: Download the Godot 64-bit SDK
+  get_url:
+    url: "{{ godot_sdk_archive_url }}"
+    dest: "{{ godot_sdk_install_archives_directory}}/{{ godot_sdk_archive_name }}"
+    checksum: "{{ godot_sdk_archive_checksum }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0600'
+
+- name: Unzip the Godot SDK
+  ansible.builtin.unarchive:
+    src: "{{ godot_sdk_install_archives_directory }}/{{ godot_sdk_archive_name }}"
+    dest: "{{ godot_sdk_install_base_directory }}/"
+
+- name: Link the godot binaries to the application bin directory
+  file:
+    src: "{{ godot_sdk_install_base_directory }}/{{ godot_sdk_archive_directory }}/{{ godot_sdk_archive_binary }}"
+    dest: "~/Apps/bin/{{ godot_sdk_archive_binary }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    state: link
