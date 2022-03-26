@@ -1,10 +1,10 @@
 ---
 
-godot_sdk_archive_url: https://downloads.tuxfamily.org/godotengine/3.3.2/mono/Godot_v3.3.2-stable_mono_x11_64.zip
-godot_sdk_archive_name: Godot_v3.3.2-stable_mono_x11_64.zip
-godot_sdk_archive_checksum: sha256:8a6c89fe862367ef8478474df7d26b52e05aa4caf8d0f4ae19672e45311cd10c
-godot_sdk_archive_directory: Godot_v3.3.2-stable_mono_x11_64
-godot_sdk_archive_binary: Godot_v3.3.2-stable_mono_x11.64
+godot_sdk_archive_url: https://downloads.tuxfamily.org/godotengine/3.4.4/mono/Godot_v3.4.4-stable_mono_x11_64.zip
+godot_sdk_archive_name: Godot_v3.4.4-stable_mono_x11_64.zip
+godot_sdk_archive_checksum: sha256:ec622859b5ab70fcf1f9781c34e30d55a5d7bdc37926f1334c2cd0a3e4d4a776
+godot_sdk_archive_directory: Godot_v3.4.4-stable_mono_x11_64
+godot_sdk_archive_binary: Godot_v3.4.4-stable_mono_x11.64
 
 godot_sdk_install_base_directory: "~/Apps/godot"
 godot_sdk_install_archives_directory: "~/Apps/godot/archives"
