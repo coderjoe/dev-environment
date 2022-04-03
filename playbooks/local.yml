@@ -74,3 +74,5 @@
     # Entertainment
     - role: spotify
       tags: [ entertainment, music, spotify ]
+    - role: lutris
+      tags: [ gaming, lutris ]

@@ -1,0 +1,7 @@
+---
+
+- name: Install Lutris open gaming platform
+  apt:
+    name: lutris
+    state: present
+  become: true
