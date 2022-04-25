@@ -1,27 +1,28 @@
 ---
 
-- name: Install ruby build prerequisite libraries (bionic)
+- name: Install ruby build prerequisite libraries (bionic and earlier)
   apt:
     name: "{{ packages }}"
   vars:
     packages:
-      - autoconf
-      - bison
-      - build-essential
-      - libssl-dev
-      - libyaml-dev
-      - libreadline6-dev
-      - zlib1g-dev
-      - libncurses5-dev
-      - libffi-dev
       - libgdbm5
-      - libgdbm-dev
   become: true
   when:
     - ansible_distribution == 'Ubuntu'
-    - ansible_distribution_release == 'bionic'
+    - ansible_distribution_major_version|int <= 18
 
-- name: Install ruby build prerequisite libraries (focal)
+- name: Install ruby build prerequisite libraries (focal and later)
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - libgdbm6
+  become: true
+  when:
+    - ansible_distribution == 'Ubuntu'
+    - ansible_distribution_major_version|int >= 19
+
+- name: Install ruby build prerequisite libraries (all ubuntu releases)
   apt:
     name: "{{ packages }}"
   vars:
@@ -31,17 +32,15 @@
       - build-essential
       - libssl-dev
       - libyaml-dev
-      - libreadline6-dev
+      - libreadline-dev
       - zlib1g-dev
       - libncurses5-dev
       - libffi-dev
-      - libgdbm6
       - libgdbm-dev
       - libdb-dev
   become: true
   when:
     - ansible_distribution == 'Ubuntu'
-    - ansible_distribution_release == 'focal'
 
 - name: Install rbenv to ~/.rbenv
   git:
