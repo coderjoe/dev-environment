@@ -10,10 +10,15 @@
       - dotnet-sdk-2.1
       - dotnet-sdk-3.0
       - dotnet-sdk-3.1
-      - dotnet-sdk-5.0
   become: true
 
-- name: Install the .NET Core SDK 6.0
+- name: Install the current dotnet LTS SDK
+  apt:
+    name: dotnet-sdk-5.0
+    state: present
+  become: true
+
+- name: Install the current dotnet Current SDK
   apt:
     name: dotnet-sdk-6.0
     state: present
