@@ -1,0 +1,10 @@
+---
+
+android_studio_archive_url: https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2021.2.1.15/android-studio-2021.2.1.15-linux.tar.gz
+android_studio_archive_name: android-studio-2021.2.1.15-linux.tar.gz
+android_studio_directory_name: android-studio-2021.2.1.15-linux
+android_studio_archive_checksum: sha256:0018e0dfc0dd2921700516f7a2c443377c557788da7fb0a45243ecb4300745be
+
+android_studio_install_base_directory: "/home/{{ ansible_user_id }}/Apps/AndroidStudio"
+android_studio_install_archives_directory: "/home/{{ ansible_user_id }}/Apps/AndroidStudio/archives"
+

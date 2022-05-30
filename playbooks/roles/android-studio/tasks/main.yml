@@ -1,0 +1,48 @@
+---
+- name: Ensure the user specific App directories exist
+  file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0700'
+    state: directory
+  with_items:
+    - ~/Apps/
+    - ~/Apps/bin
+
+- name: Create the AndroidStudio application directories
+  file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0700'
+    state: directory
+  with_items:
+    - "{{ android_studio_install_base_directory }}"
+    - "{{ android_studio_install_base_directory }}/{{ android_studio_directory_name }}"
+    - "{{ android_studio_install_archives_directory }}"
+
+- name: Download the AndroidStudio archive
+  get_url:
+    url: "{{ android_studio_archive_url }}"
+    dest: "{{ android_studio_install_archives_directory}}/{{ android_studio_archive_name }}"
+    checksum: "{{ android_studio_archive_checksum }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0600'
+
+- name: Unzip the AndroidStudio archive
+  ansible.builtin.unarchive:
+    src: "{{ android_studio_install_archives_directory }}/{{ android_studio_archive_name }}"
+    dest: "{{ android_studio_install_base_directory }}/{{ android_studio_directory_name }}"
+    creates: "{{ android_studio_install_base_directory }}/{{ android_studio_directory_name }}/android-studio"
+
+- name: Add AndroidStudio to the applicaiton launcher
+  template:
+    src: "local/share/applications/{{ item }}.j2"
+    dest: "~/.local/share/applications/{{ item }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0600'
+  with_items:
+    - AndroidStudio.desktop

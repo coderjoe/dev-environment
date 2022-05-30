@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Android Studio
+Comment=Develop Android applications
+Exec=env {{ android_studio_install_base_directory }}/{{ android_studio_directory_name }}/android-studio/bin/studio.sh
+Icon={{ android_studio_install_base_directory }}/{{ android_studio_directory_name }}/android-studio/bin/studio.png
+Type=Application
+StartupNotify=false
+StartupWMClass=AndroidStudio
+Categories=Utility;Development;IDE;
+MimeType=text/plain;inode/directory;
+Keywords=android;studio;androidstudio;android-studio;

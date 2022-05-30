@@ -1,0 +1,26 @@
+---
+
+- name: Install qemu for kvm
+  apt:
+    name: qemu-kvm
+    state: present
+  become: true
+
+- name: Install libvirt-daemon-system
+  apt:
+    name: libvirt-daemon-system
+    state: present
+  become: true
+
+- name: Install libvirt-clients
+  apt:
+    name: libvirt-clients
+    state: present
+  become: true
+
+- name: Install bridge-utils
+  apt:
+    name: bridge-utils
+    state: present
+  become: true
+

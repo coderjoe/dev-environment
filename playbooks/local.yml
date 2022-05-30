@@ -54,6 +54,8 @@
       tags: [ default, shell, development, vim ]
     - role: visual-studio-code
       tags: [ visual-studio-code ]
+    - role: android-studio
+      tags: [ android, android-studio ]
     - role: godot-engine
       tags: [ godot-engine, godot ]
     - role: unity
