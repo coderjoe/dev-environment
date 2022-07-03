@@ -28,6 +28,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'vim-scripts/matchit.zip'
+Plugin 'ludovicchabant/vim-gutentags'
 
 call vundle#end()
 filetype plugin indent on
