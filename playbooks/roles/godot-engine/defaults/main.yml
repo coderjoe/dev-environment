@@ -1,11 +1,19 @@
 ---
+godot_version: 3.4.4
 
-godot_sdk_archive_url: https://downloads.tuxfamily.org/godotengine/3.4.4/mono/Godot_v3.4.4-stable_mono_x11_64.zip
-godot_sdk_archive_name: Godot_v3.4.4-stable_mono_x11_64.zip
-godot_sdk_archive_checksum: sha256:ec622859b5ab70fcf1f9781c34e30d55a5d7bdc37926f1334c2cd0a3e4d4a776
-godot_sdk_archive_directory: Godot_v3.4.4-stable_mono_x11_64
-godot_sdk_archive_binary: Godot_v3.4.4-stable_mono_x11.64
+godot_icon: Godot.svg
+godot_icon_source: "https://raw.githubusercontent.com/godotengine/godot/master/editor/icons/Godot.svg"
 
-godot_sdk_install_base_directory: "~/Apps/godot"
-godot_sdk_install_archives_directory: "~/Apps/godot/archives"
+godot_archive_url: "https://downloads.tuxfamily.org/godotengine/{{godot_version}}/mono/Godot_v{{godot_version}}-stable_mono_x11_64.zip"
+godot_archive_name: "Godot_v{{godot_version}}-stable_mono_x11_64.zip"
+godot_archive_checksum: sha256:ec622859b5ab70fcf1f9781c34e30d55a5d7bdc37926f1334c2cd0a3e4d4a776
+godot_archive_directory: "Godot_v{{godot_version}}-stable_mono_x11_64"
+godot_archive_binary: "Godot_v{{godot_version}}-stable_mono_x11.64"
 
+godot_install_base: "/home/{{ ansible_user_id }}/Apps/godot"
+godot_archives_base: "/home/{{ ansible_user_id }}/Apps/godot/archives"
+
+godot_archive: "{{ godot_archives_base }}/{{ godot_archive_name }}"
+godot_install_path: "{{ godot_install_base }}/{{ godot_version }}"
+godot_icon_path: "{{ godot_install_path }}/{{ godot_icon }}"
+godot_binary_path: "{{ godot_install_path }}/{{ godot_archive_binary }}"

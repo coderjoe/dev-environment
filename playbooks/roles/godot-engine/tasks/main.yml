@@ -7,8 +7,8 @@
     mode: '0700'
     state: directory
   with_items:
-    - ~/Apps/
-    - ~/Apps/bin
+    - /home/{{ ansible_user_id }}/Apps/
+    - /home/{{ ansible_user_id }}/Apps/bin
 
 - name: Create the godot application directories
   file:
@@ -18,27 +18,68 @@
     mode: '0700'
     state: directory
   with_items:
-    - "{{ godot_sdk_install_base_directory }}"
-    - "{{ godot_sdk_install_archives_directory }}"
+    - "{{ godot_install_base }}"
+    - "{{ godot_archives_base }}"
+    - "{{ godot_install_path }}"
 
 - name: Download the Godot 64-bit SDK
   get_url:
-    url: "{{ godot_sdk_archive_url }}"
-    dest: "{{ godot_sdk_install_archives_directory}}/{{ godot_sdk_archive_name }}"
-    checksum: "{{ godot_sdk_archive_checksum }}"
+    url: "{{ godot_archive_url }}"
+    dest: "{{ godot_archive }}"
+    checksum: "{{ godot_archive_checksum }}"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: '0600'
 
+- name: Download the Godot icon
+  get_url:
+    url: "{{ godot_icon_source }}"
+    dest: "{{ godot_icon_path }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0600'
+
+- name: Check to see if Godot is already installed
+  stat:
+    path: "{{ godot_binary_path }}"
+  register: godot_binary_info
+
 - name: Unzip the Godot SDK
   ansible.builtin.unarchive:
-    src: "{{ godot_sdk_install_archives_directory }}/{{ godot_sdk_archive_name }}"
-    dest: "{{ godot_sdk_install_base_directory }}/"
+    src: "{{ godot_archive }}"
+    dest: "{{ godot_install_base }}"
+  when: not godot_binary_info.stat.exists
+
+- name: "Copy the files to the install path"
+  ansible.builtin.shell:
+    cmd: "cp -R {{ godot_install_base }}/{{ godot_archive_directory }}/* {{ godot_install_path }}/"
+    chdir: "{{ godot_install_base }}/{{ godot_archive_directory }}"
+  when: not godot_binary_info.stat.exists
+
+- name: "Clean up the default archive directory"
+  ansible.builtin.file:
+    path: "{{ godot_install_base }}/{{ godot_archive_directory }}"
+    state: absent
 
 - name: Link the godot binaries to the application bin directory
   file:
-    src: "{{ godot_sdk_install_base_directory }}/{{ godot_sdk_archive_directory }}/{{ godot_sdk_archive_binary }}"
-    dest: "~/Apps/bin/{{ godot_sdk_archive_binary }}"
+    src: "{{ godot_install_path }}/{{ godot_archive_binary }}"
+    dest: "~/Apps/bin/{{ godot_archive_binary }}"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     state: link
+
+- name: Create the applications share directory if it doesn't exist
+  file:
+    path: '~/.local/share/applications'
+    state: directory
+
+- name: Add Godot to the application launcher
+  template:
+    src: "local/share/applications/{{ item }}.j2"
+    dest: "~/.local/share/applications/{{ item }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0600'
+  with_items:
+    - Godot.desktop
