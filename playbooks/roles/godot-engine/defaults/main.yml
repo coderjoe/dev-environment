@@ -1,12 +1,12 @@
 ---
-godot_version: 3.4.4
+godot_version: 3.5
 
 godot_icon: Godot.svg
 godot_icon_source: "https://raw.githubusercontent.com/godotengine/godot/master/editor/icons/Godot.svg"
 
 godot_archive_url: "https://downloads.tuxfamily.org/godotengine/{{godot_version}}/mono/Godot_v{{godot_version}}-stable_mono_x11_64.zip"
 godot_archive_name: "Godot_v{{godot_version}}-stable_mono_x11_64.zip"
-godot_archive_checksum: sha256:ec622859b5ab70fcf1f9781c34e30d55a5d7bdc37926f1334c2cd0a3e4d4a776
+godot_archive_checksum: sha256:ad0ca1bdf822a9af353f17f8373dbfd32862e55ca9f8230dc752b7840656b89e
 godot_archive_directory: "Godot_v{{godot_version}}-stable_mono_x11_64"
 godot_archive_binary: "Godot_v{{godot_version}}-stable_mono_x11.64"
 
