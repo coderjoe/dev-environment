@@ -52,5 +52,5 @@
     repo: https://github.com/VundleVim/Vundle.vim.git
     dest: ~/.dotfiles/vim/bundle/Vundle.vim
 
-- name: Install the Vundle.vim packages
-  command: vim +PluginInstall +qall
+- name: Install or Update the Vundle.vim packages
+  command: vim +PluginInstall! +qall
