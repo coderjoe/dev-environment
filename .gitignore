@@ -2,3 +2,4 @@
 .vault-password
 *vault-password*
 playbooks/vars
+tags
