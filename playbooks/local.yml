@@ -11,7 +11,7 @@
     # If we tag each rule, then we can run things with the --tags command
     #
 
-    # Core systej
+    # Core system
     #
     - role: ansible
       tags: [ default, system, development, ansible ]
@@ -30,8 +30,12 @@
       tags: [ default, shell, development, tmux ]
     - role: git
       tags: [ default, development, git ]
+
+    # Password and secret management
     - role: pass
-      tags: [ default, system, security, encryption ]
+      tags: [ default, system, security, password, encryption ]
+    - role: 1password
+      tags: [ password, 1password ]
 
     # Programming languages
     #

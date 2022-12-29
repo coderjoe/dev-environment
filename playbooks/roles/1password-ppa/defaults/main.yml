@@ -1,0 +1,7 @@
+---
+onepassword_key_url: https://downloads.1password.com/linux/keys/1password.asc
+onepassword_key_fingerprint_short: AC2D62742012EA22
+onepassword_key_checksum: sha256:145d6a930ec0326bbcff0db68111ccafe2a07222b4fd32ff6c717b9fba34708b
+
+onepassword_policy_url: https://downloads.1password.com/linux/debian/debsig/1password.pol
+onepassword_policy_checksum: sha256:c0c148807d8dc588750a9cc512c7243ed10a9cfd5519a5a6f0a038ad66a19c39

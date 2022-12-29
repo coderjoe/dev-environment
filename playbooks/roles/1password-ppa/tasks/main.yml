@@ -1,0 +1,77 @@
+---
+
+- name: Ensure debsig-verify is installed
+  ansible.builtin.apt:
+    name: debsig-verify
+    state: present
+  become: true
+
+- name: Create a temporary directory to store the downloaded 1password key
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: 1password_download_tmp
+  register: onepassword_tempdir
+  become: true
+
+- name: Download the 1password gpg package signing key
+  ansible.builtin.get_url:
+    url: "{{ onepassword_key_url }}"
+    dest: "{{ onepassword_tempdir.path }}/1password.asc"
+    checksum: "{{ onepassword_key_checksum }}"
+  become: true
+
+- name: Convert the 1password key from armored to binary format
+  ansible.builtin.shell:
+    cmd: "gpg --dearmor --output {{ onepassword_tempdir.path }}/1password.gpg {{ onepassword_tempdir.path }}/1password.asc"
+  become: true
+
+- name: Copy the 1password gpg key to the signing directory in binary format
+  ansible.builtin.copy:
+    src: "{{ onepassword_tempdir.path }}/1password.gpg"
+    dest: "/usr/share/keyrings/1password-archive-keyring.gpg"
+    remote_src: true
+  become: true
+
+- name: Add the 1password apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main"
+    filename: 1password
+    state: present
+  become: true
+
+- name:  Ensure the debsig policy directory exists
+  ansible.builtin.file:
+    path: "/etc/debsig/policies/{{ onepassword_key_fingerprint_short }}"
+    state: directory
+  become: true
+
+- name: Download the policy file into the policy directory
+  ansible.builtin.get_url:
+    url: "{{ onepassword_policy_url }}"
+    dest: "/etc/debsig/policies/{{ onepassword_key_fingerprint_short }}/1password.pol"
+    checksum: "{{ onepassword_policy_checksum }}"
+  become: true
+
+- name:  Ensure the debsig keyring directory exists
+  ansible.builtin.file:
+    path: "/usr/share/debsig/keyrings/{{ onepassword_key_fingerprint_short }}"
+    state: directory
+  become: true
+
+- name: Copy the 1password gpg key to the signing directory in binary format
+  ansible.builtin.copy:
+    src: "{{ onepassword_tempdir.path }}/1password.gpg"
+    dest: "/usr/share/debsig/keyrings/{{ onepassword_key_fingerprint_short }}/debsig.gpg"
+    remote_src: true
+  become: true
+
+- name: Cleanup the temporary 1password key download directory
+  ansible.builtin.file:
+    path: "{{ onepassword_tempdir.path }}"
+    state: absent
+  become: true
+
+- name: Force an apt-get update to parse the new key and policy information
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true

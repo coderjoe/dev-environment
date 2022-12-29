@@ -1,0 +1,7 @@
+---
+
+- name: Install 1password password manager
+  ansible.builtin.apt:
+    name: 1password
+    state: present
+  become: true
