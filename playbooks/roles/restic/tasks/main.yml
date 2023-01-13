@@ -1,0 +1,14 @@
+---
+
+- name: Install the restic backup manager
+  ansible.builtin.apt:
+    name: restic
+    state: present
+  become: true
+
+- name: Ensure rclone is installed
+  ansible.builtin.apt:
+    name: rclone
+    state: present
+  become: true
+
