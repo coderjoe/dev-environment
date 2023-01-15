@@ -12,9 +12,9 @@
       - aspnetcore-runtime-3.1
   become: true
 
-- name: Install the ASP.NET Core 5.0 runtime
+- name: Install the ASP.NET Core 6.0 runtime
   apt:
-    name: aspnetcore-runtime-5.0
+    name: aspnetcore-runtime-6.0
     state: present
   become: true
 
