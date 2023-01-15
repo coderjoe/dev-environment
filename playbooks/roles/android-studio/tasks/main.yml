@@ -50,6 +50,14 @@
     dest: "{{ android_studio_install_base_directory }}/{{ android_studio_directory_name }}"
     creates: "{{ android_studio_install_base_directory }}/{{ android_studio_directory_name }}/android-studio"
 
+- name: Ensure ~/.local/share/applications exists
+  ansible.builtin.file:
+    path: "~/.local/share/applications"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0700'
+    state: directory
+
 - name: Add AndroidStudio to the applicaiton launcher
   ansible.builtin.template:
     src: "local/share/applications/{{ item }}.j2"
