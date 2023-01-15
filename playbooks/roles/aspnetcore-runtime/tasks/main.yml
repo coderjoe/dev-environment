@@ -1,7 +1,7 @@
 ---
 
 - name: Uninstall old ASP.NET Core runtimes
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: absent
     purge: yes
@@ -13,13 +13,13 @@
   become: true
 
 - name: Install the ASP.NET Core 6.0 runtime
-  apt:
+  ansible.builtin.apt:
     name: aspnetcore-runtime-6.0
     state: present
   become: true
 
 - name: Install ASP.NET Core runtime shell config files for zsh and bash
-  copy:
+  ansible.builtin.copy:
     src: 'shell/'
     dest: "{{ item }}"
     mode: '0660'

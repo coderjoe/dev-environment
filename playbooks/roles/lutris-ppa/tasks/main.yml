@@ -1,13 +1,13 @@
 ---
 
 - name: Add the Lutris open gaming platform PPA
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: 'ppa:lutris-team/lutris'
   register: lutris_ppa_install
   become: true
 
 - name: Update the apt cache following the Lutris open gaming platform PPA install
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
   when: lutris_ppa_install == true
   become: true

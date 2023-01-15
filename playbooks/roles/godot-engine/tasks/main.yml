@@ -1,6 +1,6 @@
 ---
 - name: Ensure the user specific App directories exist
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
@@ -11,7 +11,7 @@
     - /home/{{ ansible_user_id }}/Apps/bin
 
 - name: Create the godot application directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
@@ -23,7 +23,7 @@
     - "{{ godot_install_path }}"
 
 - name: Download the Godot 64-bit SDK
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ godot_archive_url }}"
     dest: "{{ godot_archive }}"
     checksum: "{{ godot_archive_checksum }}"
@@ -32,7 +32,7 @@
     mode: '0600'
 
 - name: Download the Godot icon
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ godot_icon_source }}"
     dest: "{{ godot_icon_path }}"
     owner: "{{ ansible_user_id }}"
@@ -40,7 +40,7 @@
     mode: '0600'
 
 - name: Check to see if Godot is already installed
-  stat:
+  ansible.builtin.stat:
     path: "{{ godot_binary_path }}"
   register: godot_binary_info
 
@@ -62,7 +62,7 @@
     state: absent
 
 - name: Link the godot binaries to the application bin directory
-  file:
+  ansible.builtin.file:
     src: "{{ godot_install_path }}/{{ godot_archive_binary }}"
     dest: "~/Apps/bin/{{ godot_archive_binary }}"
     owner: "{{ ansible_user_id }}"
@@ -70,12 +70,12 @@
     state: link
 
 - name: Create the applications share directory if it doesn't exist
-  file:
+  ansible.builtin.file:
     path: '~/.local/share/applications'
     state: directory
 
 - name: Add Godot to the application launcher
-  template:
+  ansible.builtin.template:
     src: "local/share/applications/{{ item }}.j2"
     dest: "~/.local/share/applications/{{ item }}"
     owner: "{{ ansible_user_id }}"

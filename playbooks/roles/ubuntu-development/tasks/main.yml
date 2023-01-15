@@ -1,7 +1,7 @@
 ---
 
 - name: Install ubuntu development packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -13,7 +13,7 @@
   become: true
 
 - name: Copy pbuilderrc dotfile to ~/.dotfiles/
-  copy:
+  ansible.builtin.copy:
     src: '{{ item }}'
     dest: '~/.dotfiles/{{ item }}'
     mode: '0660'
@@ -21,7 +21,7 @@
     - pbuilderrc
 
 - name: Symlink pbuilderrc dotfile to ~/
-  file:
+  ansible.builtin.file:
     src: ~/.dotfiles/{{ item }}
     dest: ~/.{{item}}
     state: link
@@ -29,40 +29,40 @@
     - pbuilderrc
 
 - name: Install deb development config files to ~/.dotfiles/bash/deb-dev-config
-  template:
+  ansible.builtin.template:
     src: deb-dev-config.j2
     dest: '~/.dotfiles/bash/deb-dev-config'
     mode: '0660'
     directory_mode: '0700'
 
 - name: Install deb development config files to ~/.dotfiles/zsh/deb-dev-config
-  template:
+  ansible.builtin.template:
     src: deb-dev-config.j2
     dest: '~/.dotfiles/zsh/deb-dev-config'
     mode: '0660'
     directory_mode: '0700'
 
 - name: Create ~/.dotfiles/bazaar/`
-  file:
+  ansible.builtin.file:
     path: ~/.dotfiles/bazaar
     state: directory
     mode: '0700'
 
 - name: Create bazaar.conf file
-  template:
+  ansible.builtin.template:
     src: bazaar.conf.j2
     dest: '~/.dotfiles/bazaar/bazaar.conf'
     mode: '0660'
     directory_mode: '0700'
 
 - name: Bazaar requires its config directory to be a real directory
-  file:
+  ansible.builtin.file:
     path: ~/.bazaar
     state: directory
     mode: '0700'
 
 - name: Symlink bazaar config file to ~/.bazaar/bazaar.conf
-  file:
+  ansible.builtin.file:
     src: ~/.dotfiles/bazaar/bazaar.conf
     dest: ~/.bazaar/bazaar.conf
     state: link

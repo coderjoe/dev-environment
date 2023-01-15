@@ -1,25 +1,25 @@
 ---
 
 - name: Install vim
-  apt:
+  ansible.builtin.apt:
     name: vim
     state: present
   become: true
 
 - name: Install universal-ctags for vim ctag management
-  apt:
+  ansible.builtin.apt:
     name: universal-ctags
     state: present
   become: true
 
 - name: Install the powerline font
-  apt:
+  ansible.builtin.apt:
     name: fonts-powerline
     state: present
   become: true
 
 - name: Copy vim dotfiles to ~/.dotfiles/
-  copy:
+  ansible.builtin.copy:
     src: '{{ item }}'
     dest: '~/.dotfiles/{{ item }}'
     mode: '0660'
@@ -27,7 +27,7 @@
     - vimrc
 
 - name: Symlink vim dotfiles to ~/
-  file:
+  ansible.builtin.file:
     src: ~/.dotfiles/{{ item }}
     dest: ~/.{{item}}
     state: link
@@ -35,22 +35,22 @@
     - vimrc
 
 - name: Recursively copy vim config files to ~/.dotfiles/vim
-  copy:
+  ansible.builtin.copy:
     src: 'vim'
     dest: '~/.dotfiles/'
     mode: '0660'
     directory_mode: '0700'
 
 - name: Symlink vim config directory to ~/.vim
-  file:
+  ansible.builtin.file:
     src: ~/.dotfiles/vim
     dest: ~/.vim
     state: link
 
 - name: Install Vundle.vim from git source
-  git:
+  ansible.builtin.git:
     repo: https://github.com/VundleVim/Vundle.vim.git
     dest: ~/.dotfiles/vim/bundle/Vundle.vim
 
 - name: Install or Update the Vundle.vim packages
-  command: vim +PluginInstall! +qall
+  ansible.builtin.command: vim +PluginInstall! +qall

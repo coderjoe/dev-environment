@@ -1,7 +1,7 @@
 ---
 
 - name: Install ruby build prerequisite libraries (bionic and earlier)
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -12,7 +12,7 @@
     - ansible_distribution_major_version|int <= 18
 
 - name: Install ruby build prerequisite libraries (focal and later)
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -23,7 +23,7 @@
     - ansible_distribution_major_version|int >= 19
 
 - name: Install ruby build prerequisite libraries (all ubuntu releases)
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -43,30 +43,30 @@
     - ansible_distribution == 'Ubuntu'
 
 - name: Install rbenv to ~/.rbenv
-  git:
+  ansible.builtin.git:
     repo: https://github.com/rbenv/rbenv.git
     dest: ~/.rbenv
 
 - name: Ensure ~/.rbenv/plugins exists
-  file:
+  ansible.builtin.file:
     path: ~/.rbenv/plugins
     state: directory
     mode: '0775'
 
 - name: Install ruby-build to ~/.rbenv/plugins
-  git:
+  ansible.builtin.git:
     repo: https://github.com/rbenv/ruby-build.git
     dest: ~/.rbenv/plugins/ruby-build
 
 - name: Install the rbenv bash config files to ~/.dotfiles/bash
-  copy:
+  ansible.builtin.copy:
     src: 'bash/'
     dest: '~/.dotfiles/bash/'
     mode: '0660'
     directory_mode: '0700'
 
 - name: Install the rbenv zsh config files to ~/.dotfiles/zsh
-  copy:
+  ansible.builtin.copy:
     src: 'zsh/'
     dest: '~/.dotfiles/zsh/'
     mode: '0660'

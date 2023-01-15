@@ -1,25 +1,25 @@
 ---
 
 - name: Install qemu for kvm
-  apt:
+  ansible.builtin.apt:
     name: qemu-kvm
     state: present
   become: true
 
 - name: Install libvirt-daemon-system
-  apt:
+  ansible.builtin.apt:
     name: libvirt-daemon-system
     state: present
   become: true
 
 - name: Install libvirt-clients
-  apt:
+  ansible.builtin.apt:
     name: libvirt-clients
     state: present
   become: true
 
 - name: Install bridge-utils
-  apt:
+  ansible.builtin.apt:
     name: bridge-utils
     state: present
   become: true

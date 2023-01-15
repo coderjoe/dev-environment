@@ -1,31 +1,31 @@
 ---
 
 - name: Install tor ggp signing key support package
-  apt:
+  ansible.builtin.apt:
     name: deb.torproject.org-keyring
     state: present
   become: true
 
 - name: Install tor
-  apt:
+  ansible.builtin.apt:
     name: tor
     state: present
   become: true
 
 - name: Install torsocks
-  apt:
+  ansible.builtin.apt:
     name: torsocks
     state: present
   become: true
 
 - name: Install tor-geoipdb
-  apt:
+  ansible.builtin.apt:
     name: tor-geoipdb
     state: present
   become: true
 
 - name: Update privoxy to provide a socks5 forward to tor
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/privoxy/config
     regexp: '^\s*forward-socks5t?\s+/\s+(localhost|127.0.0.1)\s+\w+:9050\s+\.'
     insertbefore: '^#\s+5\.3\.'

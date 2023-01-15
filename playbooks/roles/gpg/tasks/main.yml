@@ -1,38 +1,38 @@
 ---
 
 - name: Install gpg
-  apt:
+  ansible.builtin.apt:
     name: gpg
     state: present
   become: true
 
 - name: Install scdaemon for smartcard support
-  apt:
+  ansible.builtin.apt:
     name: scdaemon
     state: present
   become: true
 
 - name: Recursively copy gnupg config files to ~/.dotfiles/gnupg
-  copy:
+  ansible.builtin.copy:
     src: 'gnupg/'
     dest: '~/.dotfiles/gnupg/'
     mode: '0600'
     directory_mode: '0700'
 
 - name: Ensure .dotfiles/gnupg directory has the correct permissions
-  file:
+  ansible.builtin.file:
     path: ~/.dotfiles/gnupg
     state: directory
     mode: '0700'
 
 - name: Ensure .gnupg directory exists and has the correct permissions
-  file:
+  ansible.builtin.file:
     path: '~/.gnupg'
     state: directory
     mode: '0700'
 
 - name: Symlink gnupg configuration directory to ~/.gnupg
-  file:
+  ansible.builtin.file:
     src: '~/.dotfiles/gnupg/{{ item }}'
     dest: '~/.gnupg/{{ item }}'
     state: link
@@ -42,6 +42,6 @@
     - dirmngr.conf
 
 - name: Remove the old keyserver-certs directory due to switch to dirmngr
-  file:
+  ansible.builtin.file:
     path: ~/.gnupg/keyserver-certs
     state: absent

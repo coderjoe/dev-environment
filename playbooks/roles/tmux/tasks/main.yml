@@ -1,19 +1,19 @@
 ---
 
 - name: Install tmux
-  apt:
+  ansible.builtin.apt:
     name: tmux
     state: present
   become: true
 
 - name: Install the powerline font
-  apt:
+  ansible.builtin.apt:
     name: fonts-powerline
     state: present
   become: true
 
 - name: Copy tmux dotfiles to ~/.dotfiles/
-  copy:
+  ansible.builtin.copy:
     src: '{{ item }}'
     dest: '~/.dotfiles/{{ item }}'
     mode: '0660'
@@ -21,7 +21,7 @@
     - tmux.conf
 
 - name: Symlink tmux dotfiles to ~/
-  file:
+  ansible.builtin.file:
     src: ~/.dotfiles/{{ item }}
     dest: ~/.{{item}}
     state: link
@@ -29,7 +29,7 @@
     - tmux.conf
 
 - name: Recursively copy tmux config files to ~/.dotfiles/tmux
-  copy:
+  ansible.builtin.copy:
     src: 'tmux'
     dest: '~/.dotfiles/'
     mode: '0660'

@@ -1,7 +1,7 @@
 ---
 
 - name: Add the ppa ppa:ansible/ansible
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: ppa:ansible/ansible
     state: present
     filename: ppa-ansible
@@ -9,7 +9,7 @@
   when: not skip_ansible_install is defined
 
 - name: Install ansible
-  apt:
+  ansible.builtin.apt:
     name: ansible
     state: latest
   become: true

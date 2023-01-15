@@ -1,7 +1,7 @@
 ---
 
 - name: Remove old .NET Core SDKs
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: absent
     purge: yes
@@ -14,13 +14,13 @@
   become: true
 
 - name: Install the current dotnet LTS SDK
-  apt:
+  ansible.builtin.apt:
     name: dotnet-sdk-6.0
     state: present
   become: true
 
 - name: Install .NET Core runtime shell config files for zsh and bash
-  copy:
+  ansible.builtin.copy:
     src: 'shell/'
     dest: "{{ item }}"
     mode: '0660'

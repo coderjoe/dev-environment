@@ -1,6 +1,6 @@
 ---
 - name: Ensure the user specific App directories exist
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
@@ -11,7 +11,7 @@
     - ~/Apps/bin
 
 - name: Create the unity application directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
@@ -23,7 +23,7 @@
     - ~/.config/UnityHub
 
 - name: Download the Unity Hub AppImage
-  get_url:
+  ansible.builtin.get_url:
     url: https://public-cdn.cloud.unity3d.com/hub/prod/UnityHub.AppImage
     dest: ~/Apps/Unity/UnityHub.AppImage
     checksum: sha256:9aca948666196b2314f5a1bfe44b338a2404613e3911271b03bf6ac0f6341ab4
@@ -32,12 +32,12 @@
     mode: '0700'
 
 - name: Check to see if the UnityHub configuration directory already exists
-  stat:
+  ansible.builtin.stat:
     path: ~/.config/UnityHub
   register: unityhub_config_dir
 
 - name: Create the UnityHub configuration
-  template:
+  ansible.builtin.template:
     src: "config/UnityHub/{{ item }}.j2"
     dest: "~/.config/UnityHub/{{ item }}"
     owner: "{{ ansible_user_id }}"
@@ -47,7 +47,7 @@
     - secondaryInstallPath.json
 
 - name: Link the unity hub binary to the application bin directory
-  file:
+  ansible.builtin.file:
     src: ~/Apps/Unity/UnityHub.AppImage
     dest: ~/Apps/bin/UnityHub
     owner: "{{ ansible_user_id }}"
@@ -55,18 +55,18 @@
     state: link
 
 - name: Check to see if the UnityHub icon has already been fetched
-  stat:
+  ansible.builtin.stat:
     path: ~/Apps/Unity/unityhub.png
   register: unityhub_appicon
 
 - name: Extract the UnityHub app image to get the app icon
-  command:
+  ansible.builtin.command:
     cmd: ./UnityHub.AppImage --appimage-extract
     chdir: ~/Apps/Unity
   when: unityhub_appicon.stat.exists == false
 
 - name: Copy the application icon
-  copy:
+  ansible.builtin.copy:
     src: ~/Apps/Unity/squashfs-root/usr/share/icons/hicolor/48x48/apps/unityhub.png
     dest: ~/Apps/Unity/unityhub.png
     owner: "{{ ansible_user_id }}"
@@ -75,17 +75,17 @@
   when: unityhub_appicon.stat.exists == false
 
 - name: Clean up the extracted application if it exists
-  file:
+  ansible.builtin.file:
     path: ~/Apps/Unity/squashfs-root
     state: absent
 
 - name: Create the applications share directory if it doesn't exist
-  file:
+  ansible.builtin.file:
     path: '~/.local/share/applications'
     state: directory
 
 - name: Add UnityHub to the application launcher
-  template:
+  ansible.builtin.template:
     src: "local/share/applications/{{ item }}.j2"
     dest: "~/.local/share/applications/{{ item }}"
     owner: "{{ ansible_user_id }}"

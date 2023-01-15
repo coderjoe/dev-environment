@@ -1,7 +1,7 @@
 ---
 
 - name: Install spotify
-  snap:
+  ansible.builtin.snap:
     name: spotify
     channel: latest/stable
   become: true

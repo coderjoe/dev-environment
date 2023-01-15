@@ -1,7 +1,7 @@
 ---
 
 - name: Copy ruby dotfiles to ~/.dotfiles/
-  copy:
+  ansible.builtin.copy:
     src: '{{ item }}'
     dest: '~/.dotfiles/{{ item }}'
     mode: '0660'
@@ -9,7 +9,7 @@
     - rspec
 
 - name: Symlink ruby dotfiles to ~/
-  file:
+  ansible.builtin.file:
     src: ~/.dotfiles/{{ item }}
     dest: ~/.{{item}}
     state: link

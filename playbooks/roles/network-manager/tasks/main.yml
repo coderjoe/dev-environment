@@ -1,7 +1,7 @@
 ---
 
 - name: Copy over /etc/NetworkManager/conf.d/* config files
-  copy:
+  ansible.builtin.copy:
     src: 'conf.d/'
     dest: '/etc/NetworkManager/conf.d/'
     mode: '0644'

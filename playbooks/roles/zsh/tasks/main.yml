@@ -1,19 +1,19 @@
 ---
 
 - name: Install zsh
-  apt:
+  ansible.builtin.apt:
     name: zsh
     state: present
   become: true
 
 - name: Create ~/.dotfiles/zsh
-  file:
+  ansible.builtin.file:
     path: ~/.dotfiles/zsh
     state: directory
     mode: '0700'
 
 - name: Copy zsh dotfiles to ~/.dotfiles/
-  copy:
+  ansible.builtin.copy:
     src: '{{ item }}'
     dest: '~/.dotfiles/{{ item }}'
     mode: '0660'
@@ -22,7 +22,7 @@
     - zlogin
 
 - name: Symlink zsh dotfiles to ~/
-  file:
+  ansible.builtin.file:
     src: ~/.dotfiles/{{ item }}
     dest: ~/.{{item}}
     state: link
@@ -31,7 +31,7 @@
     - zlogin
 
 - name: Recursively copy zsh config files to ~/.dotfiles/zsh
-  copy:
+  ansible.builtin.copy:
     src: 'zsh'
     dest: '~/.dotfiles/'
     mode: '0660'

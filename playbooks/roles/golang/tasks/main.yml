@@ -1,7 +1,7 @@
 ---
 
 - name: Make the golang base directory
-  file:
+  ansible.builtin.file:
     path: "{{ golang_base_dir }}"
     state: directory
     mode: '0755'
@@ -10,7 +10,7 @@
   become: true
 
 - name: Make the golang installer archive directory
-  file:
+  ansible.builtin.file:
     path: "{{ golang_archive_dir }}"
     state: directory
     mode: '0755'
@@ -19,7 +19,7 @@
   become: true
 
 - name: Download the golang archive
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ golang_url }}"
     dest: "{{ golang_archive_dir }}"
     checksum: "{{ golang_checksum }}"
@@ -30,19 +30,19 @@
   become: true
 
 - name: Install golang archive
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ golang_downloaded_file.dest }}"
     dest: "{{ golang_root_dir }}"
   become: true
 
 - name: Create the bash environment files
-  template:
+  ansible.builtin.template:
     src: bash/golang.j2
     dest: ~/.dotfiles/bash/golang
     mode: '0660'
 
 - name: Create the zsh environment files
-  template:
+  ansible.builtin.template:
     src: zsh/golang.j2
     dest: ~/.dotfiles/zsh/golang
     mode: '0660'

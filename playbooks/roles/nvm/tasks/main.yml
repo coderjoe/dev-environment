@@ -1,20 +1,20 @@
 ---
 
 - name: Install nvm to ~/.nvm
-  git:
+  ansible.builtin.git:
     repo: https://github.com/nvm-sh/nvm.git
     dest: ~/.nvm
     version: master
 
 - name: Install the nvm bash config files to ~/.dotfiles/bash
-  copy:
+  ansible.builtin.copy:
     src: 'bash/'
     dest: '~/.dotfiles/bash/'
     mode: '0660'
     directory_mode: '0700'
 
 - name: Install the nvm zsh config files to ~/.dotfiles/zsh
-  copy:
+  ansible.builtin.copy:
     src: 'zsh/'
     dest: '~/.dotfiles/zsh/'
     mode: '0660'

@@ -1,31 +1,31 @@
 ---
 
 - name: Install git
-  apt:
+  ansible.builtin.apt:
     name: git
     state: present
   become: true
 
 - name: Install gitk
-  apt:
+  ansible.builtin.apt:
     name: gitk
     state: present
   become: true
 
 - name: Create .gitconfig
-  template:
+  ansible.builtin.template:
     src: gitconfig.j2
     dest: ~/.dotfiles/gitconfig
     mode: '0660'
 
 - name: Create .gitk
-  copy:
+  ansible.builtin.copy:
     src: gitk
     dest: ~/.dotfiles/gitk
     mode: '0660'
 
 - name: Symlink git dotfiles to ~/
-  file:
+  ansible.builtin.file:
     src: ~/.dotfiles/{{ item }}
     dest: ~/.{{item}}
     state: link
