@@ -1,6 +1,19 @@
 ---
+- name: Install android studio prerequisite packages
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - libc6:i386
+      - libncurses5:i386
+      - libstdc++6:i386
+      - lib32z1
+      - libbz2-1.0:i386
+  become: true
+
 - name: Ensure the user specific App directories exist
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
@@ -11,7 +24,7 @@
     - ~/Apps/bin
 
 - name: Create the AndroidStudio application directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
@@ -23,7 +36,7 @@
     - "{{ android_studio_install_archives_directory }}"
 
 - name: Download the AndroidStudio archive
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ android_studio_archive_url }}"
     dest: "{{ android_studio_install_archives_directory}}/{{ android_studio_archive_name }}"
     checksum: "{{ android_studio_archive_checksum }}"
@@ -38,7 +51,7 @@
     creates: "{{ android_studio_install_base_directory }}/{{ android_studio_directory_name }}/android-studio"
 
 - name: Add AndroidStudio to the applicaiton launcher
-  template:
+  ansible.builtin.template:
     src: "local/share/applications/{{ item }}.j2"
     dest: "~/.local/share/applications/{{ item }}"
     owner: "{{ ansible_user_id }}"
