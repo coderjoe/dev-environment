@@ -1,0 +1,46 @@
+---
+- name: Create the unity application configuration directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0700'
+    state: directory
+  with_items:
+    - ~/.config/UnityHub
+
+- name: Check to see if the UnityHub configuration directory already exists
+  ansible.builtin.stat:
+    path: ~/.config/UnityHub
+  register: unityhub_config_dir
+
+- name: Create the UnityHub configuration
+  ansible.builtin.template:
+    src: "config/UnityHub/{{ item }}.j2"
+    dest: "~/.config/UnityHub/{{ item }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0600'
+  with_items:
+    - secondaryInstallPath.json
+
+- name: Clean up the old extracted AppImage application if it exists
+  ansible.builtin.file:
+    path: ~/Apps/Unity/squashfs-root
+    state: absent
+
+- name: Remove the old AppImage app link Link (if present)
+  ansible.builtin.file:
+    path: ~/Apps/bin/UnityHub
+    state: absent
+
+- name: Remove old AppImage application launcher (if it exists)
+  ansible.builtin.file:
+    path: "~/.local/share/applications/UnityHub.desktop"
+    state: absent
+
+- name: Install unityhub via the ppa package
+  ansible.builtin.apt:
+    name: unityhub
+    state: present
+  become: true

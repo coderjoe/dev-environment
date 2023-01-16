@@ -64,8 +64,8 @@
       tags: [ android, android-studio ]
     - role: godot-engine
       tags: [ godot-engine, godot ]
-    - role: unity
-      tags: [ unity-engine, unity ]
+    - role: unityhub
+      tags: [ unity-engine, unityhub, unity ]
 
     # Privacy tools
     #
