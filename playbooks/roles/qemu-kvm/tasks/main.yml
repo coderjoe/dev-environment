@@ -6,9 +6,9 @@
     state: present
   become: true
 
-- name: Install libvirt-daemon-system
+- name: Install virt-manager
   ansible.builtin.apt:
-    name: libvirt-daemon-system
+    name: virt-manager
     state: present
   become: true
 
@@ -18,9 +18,44 @@
     state: present
   become: true
 
+- name: Install libvirt-daemon-system
+  ansible.builtin.apt:
+    name: libvirt-daemon-system
+    state: present
+  become: true
+
 - name: Install bridge-utils
   ansible.builtin.apt:
     name: bridge-utils
     state: present
   become: true
 
+- name: Install virtinst
+  ansible.builtin.apt:
+    name: bridge-utils
+    state: present
+  become: true
+
+- name: Install libvirt-daemon
+  ansible.builtin.apt:
+    name: libvirt-daemon
+    state: present
+  become: true
+
+- name: Install uml-utilities for assistance managing images
+  ansible.builtin.apt:
+    name: uml-utilities
+    state: present
+  become: true
+
+- name: Install libguestfs-tools
+  ansible.builtin.apt:
+    name: libguestfs-tools
+    state: present
+  become: true
+
+- name: Install dmg2img for osx image conversion
+  ansible.builtin.apt:
+    name: dmg2img
+    state: present
+  become: true

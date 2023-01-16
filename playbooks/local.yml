@@ -84,3 +84,7 @@
       tags: [ entertainment, music, spotify ]
     - role: lutris
       tags: [ gaming, lutris ]
+
+    # Virtualization
+    - role: qemu-kvm
+      tags: [ virtualization, qemu-kvm ]
