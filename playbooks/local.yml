@@ -42,9 +42,9 @@
     # Programming languages
     #
     - role: golang
-      tags: [ golang, go ]
+      tags: [ golang, go, goenv ]
     - role: ruby
-      tags: [ rubylang, ruby ]
+      tags: [ rubylang, ruby, rbenv ]
     - role: nodejs
       tags: [ nodejs ]
     - role: dotnetcore-sdk

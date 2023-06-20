@@ -1,0 +1,19 @@
+---
+- name: Install goenv to ~/.goenv
+  ansible.builtin.git:
+    repo: https://github.com/syndbg/goenv.git
+    dest: ~/.goenv
+
+- name: Install the goenv bash config files to ~/.dotfiles/bash
+  ansible.builtin.copy:
+    src: 'bash/'
+    dest: '~/.dotfiles/bash/'
+    mode: '0660'
+    directory_mode: '0700'
+
+- name: Install the goenv zsh config files to ~/.dotfiles/zsh
+  ansible.builtin.copy:
+    src: 'zsh/'
+    dest: '~/.dotfiles/zsh/'
+    mode: '0660'
+    directory_mode: '0700'
