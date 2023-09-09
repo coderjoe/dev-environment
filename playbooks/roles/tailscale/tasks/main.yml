@@ -1,0 +1,7 @@
+---
+
+- name: Install the tailscale vpn
+  ansible.builtin.apt:
+    name: tailscale
+    state: present
+  become: true

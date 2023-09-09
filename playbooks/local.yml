@@ -88,3 +88,7 @@
     # Virtualization
     - role: qemu-kvm
       tags: [ virtualization, qemu-kvm ]
+
+    # VPNs
+    - role: tailscale
+      tags: [ vpn, tailscale ]
