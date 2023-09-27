@@ -1,13 +1,13 @@
 ---
 
-- name: Add the Microsoft production PPA via the public deb package
+- name: Add the Microsoft production repository via the public deb package
   ansible.builtin.apt:
     deb: "https://packages.microsoft.com/config/{{ ansible_distribution | lower }}/{{ ansible_distribution_version }}/packages-microsoft-prod.deb"
-  register: microsoft_ppa_install
+  register: microsoft_repository_install
   become: true
 
-- name: Update the apt cache following the Microsoft PPA install
+- name: Update the apt cache following the Microsoft repository install
   ansible.builtin.apt:
     update_cache: yes
-  when: microsoft_ppa_install.changed == true
+  when: microsoft_repository_install.changed == true
   become: true

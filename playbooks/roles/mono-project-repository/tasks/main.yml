@@ -1,0 +1,72 @@
+---
+
+- name: Determine if Mono project repository has support for this distribution version
+  ansible.builtin.set_fact:
+    mono_repository_supports_distribution_version: "{{ ansible_distribution_major_version|int < 22 }}"
+
+- name: Determine if Mono project repository will support i386
+  set_fact:
+    mono_repository_supports_i386: "{{ ansible_distribution_major_version|int < 20 }}"
+
+- name: Remove the Mono project repository signing key from the legacy apt_key store
+  ansible.builtin.apt_key:
+    id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+    keyserver: hkp://keyserver.ubuntu.com:80
+    state: absent
+  become: true
+  when: mono_repository_supports_distribution_version
+
+- name: Fetch the mono official repository signing key from the ubuntu keyserver
+  ansible.builtin.command:
+    argv:
+      - 'gpg'
+      - '--homedir'
+      - '/tmp'
+      - '--no-default-keyring'
+      - '--keyring'
+      - '/usr/share/keyrings/mono-official-archive-keyring.gpg'
+      - '--keyserver'
+      - 'hkp://keyserver.ubuntu.com:80'
+      - '--recv-keys'
+      - '3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF'
+  become: true
+  when: mono_repository_supports_distribution_version
+
+- name: Remove the oneline format Mono Project PPA with i386
+  ansible.builtin.apt_repository:
+    repo: "deb https://download.mono-project.com/repo/ubuntu stable-{{ ansible_distribution_release }}  main"
+    filename: mono-official-stable
+    state: absent
+    update_cache: false
+  become: true
+  when: mono_repository_supports_distribution_version and mono_repository_supports_i386
+
+- name: Remove the oneline format Mono Project PPA without i386 support
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.mono-project.com/repo/ubuntu stable-{{ ansible_distribution_release }}  main"
+    filename: mono-official-stable
+    state: absent
+    update_cache: false
+  become: true
+  when: mono_repository_supports_distribution_version and not mono_repository_supports_i386
+
+- name: Add the deb822 format Mono Project repository with i386
+  ansible.builtin.deb822_repository:
+    name: mono-official-stable
+    types: deb
+    uris: "https://download.mono-project.com/repo/ubuntu"
+    suites: "stable-{{ ansible_distribution_release }}"
+    components: main
+    signed_by: /usr/share/keyrings/mono-official-archive-keyring.gpg
+  when: mono_repository_supports_distribution_version and mono_repository_supports_i386
+
+- name: Add the deb822 format Mono Project repository without i386 support
+  ansible.builtin.deb822_repository:
+    name: mono-official-stable
+    types: deb
+    uris: "https://download.mono-project.com/repo/ubuntu"
+    suites: "stable-{{ ansible_distribution_release }}"
+    architectures: amd64
+    components: main
+    signed_by: /usr/share/keyrings/mono-official-archive-keyring.gpg
+  when: mono_repository_supports_distribution_version and not mono_repository_supports_i386

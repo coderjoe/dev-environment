@@ -1,2 +1,2 @@
 dependencies:
-  - role: microsoft-production-ppa
+  - role: microsoft-production-repository

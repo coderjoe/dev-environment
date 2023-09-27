@@ -1,4 +1,4 @@
 dependencies:
   - role: apt
   - role: privoxy
-  - role: torproject-ppa
+  - role: torproject-repository

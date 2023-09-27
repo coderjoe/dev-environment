@@ -15,8 +15,8 @@ if [ $? -eq 1 ]; then
 	fi
 fi
 
-ansible_ppa="ppa.launchpad.net/ansible/ansible"
-if ! grep -q "^deb .*$ansible_ppa" /etc/apt/sources.list /etc/apt/sources.list.d/*
+ansible_repository="ppa.launchpad.net/ansible/ansible"
+if ! grep -q "$ansible_repository" /etc/apt/sources.list /etc/apt/sources.list.d/*
 then
 	echo "The ansible ppa does not appear to be installed."
 	echo "Upgrading to the latest stable ansible..."

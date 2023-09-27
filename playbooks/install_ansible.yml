@@ -1,4 +1,4 @@
-- name: Install the officially supported ansible version from the ansible ppa
+- name: Install the officially supported ansible version from the ansible repository
   hosts: local
 
   roles:

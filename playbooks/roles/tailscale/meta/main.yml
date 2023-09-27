@@ -1,2 +1,2 @@
 dependencies:
-  - role: tailscale-ppa
+  - role: tailscale-repository

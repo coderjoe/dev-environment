@@ -1,0 +1,37 @@
+---
+
+- name: Remove the old unityhub signing key in gpg format
+  ansible.builtin.file:
+    path: "/usr/share/keyrings/unityhub-archive-keyring.gpg"
+    state: absent
+  become: true
+
+- name: Download the unity package signing key
+  ansible.builtin.get_url:
+    url: "{{ unityhub_key_url }}"
+    dest: "/usr/share/keyrings/unityhub-archive-keyring.asc"
+    checksum: "{{ unityhub_key_checksum }}"
+  become: true
+
+- name: Remove the old the unityhub apt repository in oneline format
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/unityhub-archive-keyring.gpg] https://hub.unity3d.com/linux/repos/deb stable main"
+    filename: unityhub
+    state: absent
+  become: true
+
+- name: Add the unityhub apt repository in deb822 format
+  ansible.builtin.deb822_repository:
+    name: unityhub
+    types: deb
+    uris: "https://hub.unity3d.com/linux/repos/deb"
+    suites: stable
+    components: main
+    architectures: amd64
+    signed_by: "/usr/share/keyrings/unityhub-archive-keyring.asc"
+  become: true
+
+- name: Force an apt-get update to parse the new key and policy information
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true

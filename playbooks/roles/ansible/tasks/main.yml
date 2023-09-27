@@ -1,10 +1,38 @@
 ---
 
-- name: Add the ppa ppa:ansible/ansible
+- name: Remove the legacy ppa ppa:ansible/ansible in oneline format
   ansible.builtin.apt_repository:
     repo: ppa:ansible/ansible
-    state: present
+    state: absent
     filename: ppa-ansible
+    update_cache: false
+  become: true
+  when: not skip_ansible_install is defined
+
+- name: Fetch the ansible repository signing key from the ubuntu keyserver
+  ansible.builtin.command:
+    argv:
+      - 'gpg'
+      - '--homedir'
+      - '/tmp'
+      - '--no-default-keyring'
+      - '--keyring'
+      - '/usr/share/keyrings/ansible-official-archive-keyring.gpg'
+      - '--keyserver'
+      - 'hkp://keyserver.ubuntu.com:80'
+      - '--recv-keys'
+      - '6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367'
+  become: true
+  when: not skip_ansible_install is defined
+
+- name: Add the ansible ppa as a deb822 format repository
+  ansible.builtin.deb822_repository:
+    name: ppa_ansible
+    types: deb
+    uris: http://ppa.launchpad.net/ansible/ansible/ubuntu
+    suites: "{{ ansible_distribution_release }}"
+    components: main
+    signed_by: /usr/share/keyrings/ansible-official-archive-keyring.gpg
   become: true
   when: not skip_ansible_install is defined
 

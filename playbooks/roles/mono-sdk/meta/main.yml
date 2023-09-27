@@ -1,2 +1,2 @@
 dependencies:
-  - role: mono-project-ppa
+  - role: mono-project-repository

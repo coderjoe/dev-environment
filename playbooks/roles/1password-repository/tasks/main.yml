@@ -1,0 +1,69 @@
+---
+
+- name: Ensure debsig-verify is installed
+  ansible.builtin.apt:
+    name: debsig-verify
+    state: present
+  become: true
+
+- name: Download the 1password package signing key
+  ansible.builtin.get_url:
+    url: "{{ onepassword_key_url }}"
+    dest: "/usr/share/keyrings/1password-archive-keyring.asc"
+    checksum: "{{ onepassword_key_checksum }}"
+  become: true
+
+- name: Remove the legacy oneline format 1password apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main"
+    filename: 1password
+    state: absent
+    update_cache: false
+  become: true
+
+- name: Add the deb822 format 1password repository
+  ansible.builtin.deb822_repository:
+    name: 1password
+    types: deb
+    uris: https://downloads.1password.com/linux/debian/amd64
+    suites: stable
+    components: main
+    architectures: amd64
+    signed_by: /usr/share/keyrings/1password-archive-keyring.asc
+  become: true
+
+- name:  Ensure the debsig policy directory exists
+  ansible.builtin.file:
+    path: "/etc/debsig/policies/{{ onepassword_key_fingerprint_short }}"
+    state: directory
+  become: true
+
+- name: Download the policy file into the policy directory
+  ansible.builtin.get_url:
+    url: "{{ onepassword_policy_url }}"
+    dest: "/etc/debsig/policies/{{ onepassword_key_fingerprint_short }}/1password.pol"
+    checksum: "{{ onepassword_policy_checksum }}"
+  become: true
+
+- name:  Ensure the debsig keyring directory exists
+  ansible.builtin.file:
+    path: "/usr/share/debsig/keyrings/{{ onepassword_key_fingerprint_short }}"
+    state: directory
+  become: true
+
+- name: Copy the 1password key to the signing directory in binary format for debsig
+  ansible.builtin.command:
+    argv:
+      - 'gpg'
+      - '--batch'
+      - '--yes'
+      - '--dearmor'
+      - '--output'
+      - "/usr/share/debsig/keyrings/{{ onepassword_key_fingerprint_short }}/debsig.gpg"
+      - '/usr/share/keyrings/1password-archive-keyring.asc'
+  become: true
+
+- name: Force an apt-get update to parse the new key and policy information
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true

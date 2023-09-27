@@ -18,7 +18,7 @@
     - role: network-manager
       tags: [ default, system, network-manager ]
     - role: gpg
-      tags: [ default, system, security, encryption, gpg, gnupg, pgp ]
+      tags: [ default, system, security, encryption, gpg, gnupg, gpg2, gnupg2, pgp ]
     - role: restic
       tags: [ default, system, backup, backups, restic ]
 
@@ -35,7 +35,7 @@
 
     # Password and secret management
     - role: pass
-      tags: [ default, system, security, password, encryption ]
+      tags: [ default, system, security, password, encryption, pass ]
     - role: 1password
       tags: [ password, 1password ]
 
@@ -59,7 +59,7 @@
     - role: vim
       tags: [ default, shell, development, vim ]
     - role: visual-studio-code
-      tags: [ visual-studio-code ]
+      tags: [ visual-studio-code, vscode ]
     - role: android-studio
       tags: [ android, android-studio ]
     - role: godot-engine
@@ -70,7 +70,7 @@
     # Privacy tools
     #
     - role: tor
-      tags: [ privacy, security ]
+      tags: [ privacy, security, tor, torproject ]
 
     # Social tools
     #

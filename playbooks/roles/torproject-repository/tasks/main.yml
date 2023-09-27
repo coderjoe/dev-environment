@@ -1,0 +1,134 @@
+---
+
+- name: Determine if the tor repository will support i386
+  ansible.builtin.set_fact:
+    tor_repository_supports_i386: "{{ ansible_distribution_major_version|int < 20}}"
+
+- name: Remove the legacy oneline format torproject.org binary repository with i386 support
+  ansible.builtin.apt_repository:
+    repo: "deb https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
+    filename: torproject-org
+    state: absent
+    update_cache: false
+  become: true
+  when: tor_repository_supports_i386
+
+- name: Remove the legacy oneline format torproject.org source repository with i386 support
+  ansible.builtin.apt_repository:
+    repo: "deb-src https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
+    filename: torproject-org-src
+    state: absent
+    update_cache: false
+  become: true
+  when: tor_repository_supports_i386
+
+- name: Remove the legacy oneline format torproject.org binary repository without i386 support
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
+    filename: torproject-org
+    state: absent
+    update_cache: false
+  become: true
+  when: not tor_repository_supports_i386
+
+- name: Remove the legacy online format torproject.org source repository without i386 support
+  ansible.builtin.apt_repository:
+    repo: "deb-src [arch=amd64] https://deb.torproject.org/torproject.org {{ ansible_distribution_release }}  main"
+    filename: torproject-org-src
+    state: absent
+    update_cache: false
+  become: true
+  when: not tor_repository_supports_i386
+
+- name: Remove the torproject.org package signing key from the legacy apt_key storage
+  ansible.builtin.apt_key:
+    id: A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+    url: https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc
+    state: absent
+  become: true
+
+- name: Determine if the tor project's managed key is installed
+  stat:
+    path: /usr/share/keyrings/deb.torproject.org-keyring.gpg
+  register: torproject_key_result
+
+- name: Download the torproject.org package signing key
+  ansible.builtin.get_url:
+    url: https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc
+    dest: /usr/share/keyrings/deb.torproject.org-keyring.asc
+    checksum: sha256:7b3fec7e6928ec67c6342a78ed9b2d647d034d0d01c9dd17864f4d7c04bf1347
+  when: not torproject_key_result.stat.exists
+
+- name: Convert the torproject.org package signing key from asc to gpg
+  ansible.builtin.command:
+    argv:
+      - 'gpg'
+      - '--homedir'
+      - '/tmp'
+      - '--no-default-keyring'
+      - '--keyring'
+      - '/usr/share/keyrings/deb.torproject.org-keyring.gpg'
+      - '--import'
+      - '/usr/share/keyrings/deb.torproject.org-keyring.asc'
+  become: true
+  when: not torproject_key_result.stat.exists
+
+- name: Clean up the torproject.org package signing key in asc format
+  ansible.builtin.file:
+    path: /usr/share/keyrings/deb.torproject.org-keyring.asc
+    state: absent
+  become: true
+
+- name: Add deb822 format torproject.org binary repository with i386 support
+  ansible.builtin.deb822_repository:
+    name: torproject-org
+    types: deb
+    uris: "https://deb.torproject.org/torproject.org"
+    suites: "{{ ansible_distribution_release }}"
+    components: main
+    signed_by: /usr/share/keyrings/deb.torproject.org-keyring.gpg
+  become: true
+  when: tor_repository_supports_i386
+
+- name: Add deb822 format torproject.org source repository with i386 support
+  ansible.builtin.deb822_repository:
+    name: torproject-org-src
+    types: deb-src
+    uris: "https://deb.torproject.org/torproject.org"
+    suites: "{{ ansible_distribution_release }}"
+    components: main
+    signed_by: /usr/share/keyrings/deb.torproject.org-keyring.gpg
+  become: true
+  when: tor_repository_supports_i386
+
+- name: Add deb822 format torproject.org binary repository without i386 support
+  ansible.builtin.deb822_repository:
+    name: torproject-org
+    types: deb
+    uris: "https://deb.torproject.org/torproject.org"
+    suites: "{{ ansible_distribution_release }}"
+    components: main
+    architectures: amd64
+    signed_by: /usr/share/keyrings/deb.torproject.org-keyring.gpg
+  become: true
+  when: not tor_repository_supports_i386
+
+- name: Add deb822 format torproject.org source repository without i386 support
+  ansible.builtin.deb822_repository:
+    name: torproject-org-src
+    types: deb-src
+    uris: "https://deb.torproject.org/torproject.org"
+    suites: "{{ ansible_distribution_release }}"
+    components: main
+    architectures: amd64
+    signed_by: /usr/share/keyrings/deb.torproject.org-keyring.gpg
+  become: true
+  when: not tor_repository_supports_i386
+
+- name: Install the auto-updated torproject repository key package
+  ansible.builtin.apt:
+    name: deb.torproject.org-keyring
+    state: latest
+    update_cache: yes
+  become: true
+

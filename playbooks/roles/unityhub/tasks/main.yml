@@ -39,7 +39,7 @@
     path: "~/.local/share/applications/UnityHub.desktop"
     state: absent
 
-- name: Install unityhub via the ppa package
+- name: Install unityhub
   ansible.builtin.apt:
     name: unityhub
     state: present
