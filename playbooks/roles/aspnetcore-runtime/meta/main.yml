@@ -1,2 +1,2 @@
 dependencies:
-  - role: microsoft-production-repository
+  - role: apt

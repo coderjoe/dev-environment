@@ -1,6 +1,6 @@
 ---
 
-- name: Remove old .NET Core SDKs
+- name: Remove Microsoft packaged dotnet versions
   ansible.builtin.apt:
     name: "{{ packages }}"
     state: absent
@@ -13,9 +13,9 @@
       - dotnet-sdk-5.0
   become: true
 
-- name: Install the current dotnet LTS SDK
+- name: Install the current Ubuntu packaged dotnet LTS SDK
   ansible.builtin.apt:
-    name: dotnet-sdk-6.0
+    name: dotnet6
     state: present
   become: true
 

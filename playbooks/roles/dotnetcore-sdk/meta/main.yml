@@ -1,3 +1,2 @@
 dependencies:
-  - role: microsoft-production-repository
   - role: aspnetcore-runtime
