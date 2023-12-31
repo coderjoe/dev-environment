@@ -13,15 +13,27 @@
     checksum: "{{ onepassword_key_checksum }}"
   become: true
 
-- name: Remove the legacy oneline format 1password apt repository
+- name: Convert the 1password package signing key to gpg format (to avoid conflicts with the 1password deb package)
+  ansible.builtin.command:
+    argv:
+      - 'gpg'
+      - '--batch'
+      - '--yes'
+      - '--dearmor'
+      - '--output'
+      - "/usr/share/keyrings/1password-archive-keyring.gpg"
+      - '/usr/share/keyrings/1password-archive-keyring.asc'
+  become: true
+
+- name: Use the legacy oneline format 1password apt repository (to avoid conflicts with 1password deb package)
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main"
     filename: 1password
-    state: absent
+    state: present
     update_cache: false
   become: true
 
-- name: Add the deb822 format 1password repository
+- name: Remove the deb822 format 1password repository (to avoid conflicts with the 1password deb package)
   ansible.builtin.deb822_repository:
     name: 1password
     types: deb
@@ -30,6 +42,7 @@
     components: main
     architectures: amd64
     signed_by: /usr/share/keyrings/1password-archive-keyring.asc
+    state: absent
   become: true
 
 - name:  Ensure the debsig policy directory exists
