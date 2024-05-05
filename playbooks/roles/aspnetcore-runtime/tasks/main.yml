@@ -10,11 +10,12 @@
       - aspnetcore-runtime-2.1
       - aspnetcore-runtime-3.0
       - aspnetcore-runtime-3.1
+      - aspnetcore-runtime-6.0
   become: true
 
-- name: Install the ASP.NET Core 6.0 runtime
+- name: Install the ASP.NET Core 8.0 runtime
   ansible.builtin.apt:
-    name: aspnetcore-runtime-6.0
+    name: aspnetcore-runtime-8.0
     state: present
   become: true
 
