@@ -11,13 +11,41 @@
       - dotnet-sdk-3.0
       - dotnet-sdk-3.1
       - dotnet-sdk-5.0
-      - dotnet6
+      - dotnet-sdk-6.0
+      - dotnet-sdk-7.0
   become: true
 
-- name: Install the current Ubuntu packaged dotnet LTS SDK
+- name: Remove Ubuntu packaged dotnet versions to avoid conflicts
   ansible.builtin.apt:
-    name: dotnet8
+    name: "{{ packages }}"
+    state: absent
+    purge: yes
+  vars:
+    packages:
+      - dotnet6
+      - dotnet8
+
+- name: Uninstall old ASP.NET Core runtimes
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: absent
+    purge: yes
+  vars:
+    packages:
+      - aspnetcore-runtime-2.1
+      - aspnetcore-runtime-3.0
+      - aspnetcore-runtime-3.1
+      - aspnetcore-runtime-6.0
+  become: true
+
+- name: Install the current dotnet LTS SDK and aspnetcore runtime
+  ansible.builtin.apt:
+    name: "{{ packages }}"
     state: present
+  vars:
+    packages:
+      - dotnet-sdk-8.0
+      - aspnetcore-runtime-8.0
   become: true
 
 - name: Install .NET Core runtime shell config files for zsh and bash
