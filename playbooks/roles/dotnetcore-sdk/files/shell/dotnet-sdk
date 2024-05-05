@@ -1,0 +1,4 @@
+if [[ -d $HOME/Apps/dotnet && -d $HOME/Apps/dotnet/sdk ]] ; then
+    export DOTNET_ROOT="$HOME/Apps/dotnet/sdk" # Expose the configured DOTNET_ROOT
+    export PATH="$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools" # Add dotnet sdk to PATH
+fi

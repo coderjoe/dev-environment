@@ -1,0 +1,76 @@
+---
+
+- name: Clean up old ASP.NET Core runtimes to avoid conflicts
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: absent
+    purge: yes
+  vars:
+    packages:
+      - aspnetcore-runtime-2.1
+      - aspnetcore-runtime-3.0
+      - aspnetcore-runtime-3.1
+      - aspnetcore-runtime-6.0
+      - aspnetcore-runtime-8.0
+  become: true
+
+- name: Clean up old microsoft or distribution packaged dotnet versions
+  block:
+  - name: Remove Microsoft packaged dotnet versions
+    ansible.builtin.apt:
+      name: "{{ packages }}"
+      state: absent
+      purge: yes
+    vars:
+      packages:
+        - dotnet-sdk-2.1
+        - dotnet-sdk-3.0
+        - dotnet-sdk-3.1
+        - dotnet-sdk-5.0
+        - dotnet-sdk-6.0
+        - dotnet-sdk-7.0
+        - dotnet-sdk-8.0
+    become: true
+
+  - name: Remove Ubuntu packaged dotnet versions to avoid conflicts
+    ansible.builtin.apt:
+      name: "{{ packages }}"
+      state: absent
+      purge: yes
+    vars:
+      packages:
+        - dotnet6
+        - dotnet8
+    become: true
+
+- name: Locally install dotnet
+  block:
+  - name: Create the dotnet app directory
+    ansible.builtin.file:
+      path: ~/Apps/dotnet
+      state: directory
+      mode: '0700'
+
+  - name: Create the dotnet archive download directory
+    ansible.builtin.file:
+      path: ~/Apps/dotnet/archives
+      state: directory
+      mode: '0700'
+
+  - name: Create the dotnet sdk DOTNET_ROOT directory
+    ansible.builtin.file:
+      path: ~/Apps/dotnet/sdk
+      state: directory
+      mode: '0700'
+
+  - name: Download the dotnet local install archive
+    ansible.builtin.get_url:
+      url: "https://download.visualstudio.microsoft.com/download/pr/0a1b3cbd-b4af-4d0d-9ed7-0054f0e200b4/4bcc533c66379caaa91770236667aacb/dotnet-sdk-8.0.204-linux-x64.tar.gz"
+      dest: "~/Apps/dotnet/archives/dotnet-sdk-8.0.204-linux-x64.tar.gz"
+      checksum: "sha512:b45d3e3bc039d50764bfbe393b26cc929d93b22d69da74af6d35d4038ebcbc2f8410b047cdd0425c954d245e2594755c9f293c09f1ded3c97d33aebfaf878b5f"
+  
+  - name: Extract the downloaded install archive
+    ansible.builtin.unarchive:
+      src: "~/Apps/dotnet/archives/dotnet-sdk-8.0.204-linux-x64.tar.gz"
+      dest: "~/Apps/dotnet/sdk"
+      creates: "~/Apps/dotnet/sdk/dotnet"

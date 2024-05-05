@@ -1,59 +1,13 @@
 ---
 
-- name: Remove Microsoft packaged dotnet versions
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-    state: absent
-    purge: yes
-  vars:
-    packages:
-      - dotnet-sdk-2.1
-      - dotnet-sdk-3.0
-      - dotnet-sdk-3.1
-      - dotnet-sdk-5.0
-      - dotnet-sdk-6.0
-      - dotnet-sdk-7.0
-  become: true
+- name: Install dotnet prerequisites
+  ansible.builtin.import_tasks:
+    file: prerequisites.yml
 
-- name: Remove Ubuntu packaged dotnet versions to avoid conflicts
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-    state: absent
-    purge: yes
-  vars:
-    packages:
-      - dotnet6
-      - dotnet8
+- name: Install dotnet-sdk
+  ansible.builtin.import_tasks:
+    file: dotnet-sdk.yml
 
-- name: Uninstall old ASP.NET Core runtimes
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-    state: absent
-    purge: yes
-  vars:
-    packages:
-      - aspnetcore-runtime-2.1
-      - aspnetcore-runtime-3.0
-      - aspnetcore-runtime-3.1
-      - aspnetcore-runtime-6.0
-  become: true
-
-- name: Install the current dotnet LTS SDK and aspnetcore runtime
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-    state: present
-  vars:
-    packages:
-      - dotnet-sdk-8.0
-      - aspnetcore-runtime-8.0
-  become: true
-
-- name: Install .NET Core runtime shell config files for zsh and bash
-  ansible.builtin.copy:
-    src: 'shell/'
-    dest: "{{ item }}"
-    mode: '0660'
-    directory_mode: '0700'
-  with_items:
-    - '~/.dotfiles/bash/'
-    - '~/.dotfiles/zsh/'
+- name: Install dotnet shell configuration
+  ansible.builtin.import_tasks:
+    file: shell-config.yml

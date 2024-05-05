@@ -1,0 +1,12 @@
+---
+
+- name: Install .NET Core runtime shell config files for zsh and bash
+  ansible.builtin.copy:
+    src: 'shell/'
+    dest: "{{ item }}"
+    mode: '0660'
+    directory_mode: '0700'
+  with_items:
+    - '~/.dotfiles/bash/'
+    - '~/.dotfiles/zsh/'
+
