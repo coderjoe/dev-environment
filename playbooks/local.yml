@@ -41,31 +41,33 @@
 
     # Programming languages
     #
-    - role: golang
-      tags: [ golang, go, goenv ]
-    - role: ruby
-      tags: [ rubylang, ruby, rbenv ]
-    - role: nodejs
-      tags: [ nodejs ]
     - role: dotnetcore-sdk
       tags: [ development, dotnetcore, dotnetcore-sdk ]
+    - role: golang
+      tags: [ golang, go, goenv ]
     - role: mono-sdk
       tags: [ mono-sdk, mono ]
+    - role: nodejs
+      tags: [ nodejs ]
+    - role: ruby
+      tags: [ rubylang, ruby, rbenv ]
     - role: ubuntu-development
       tags: [ ubuntu-development ]
 
     # Editors
     #
-    - role: vim
-      tags: [ default, shell, development, vim ]
-    - role: visual-studio-code
-      tags: [ visual-studio-code, vscode ]
     - role: android-studio
       tags: [ android, android-studio ]
     - role: godot-engine
       tags: [ godot-engine, godot ]
+    - role: rstudio
+      tags: [ r, rstudio ]
     - role: unityhub
       tags: [ unity-engine, unityhub, unity ]
+    - role: vim
+      tags: [ default, shell, development, vim ]
+    - role: visual-studio-code
+      tags: [ visual-studio-code, vscode ]
 
     # Privacy tools
     #

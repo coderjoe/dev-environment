@@ -1,0 +1,38 @@
+---
+
+- name: Install base R tools
+  ansible.builtin.apt:
+    name: r-base
+    state: present
+  become: true
+
+- name: Get the list of installed packages to check for R Studio
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Create a temporary download location
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: rstudio
+  register: rstudio_download_dir
+  when: "not 'rstudio' in ansible_facts.packages"
+
+- name: Download the R Studio package from rstudio.org
+  ansible.builtin.get_url:
+    url: "https://download1.rstudio.org/electron/{{ ansible_distribution_release }}/amd64/{{ rstudio_filename }}"
+    dest: "/{{ rstudio_download_dir.path }}/{{ rstudio_filename }}"
+    checksum: "{{ rstudio_checksum }}"
+  become: true
+  when: "not 'rstudio' in ansible_facts.packages"
+
+- name: Install the R Studio package
+  ansible.builtin.apt:
+    deb: "/{{ rstudio_download_dir.path }}/{{ rstudio_filename }}"
+  become: true
+  when: "not 'rstudio' in ansible_facts.packages"
+
+- name: Clean up the temporary downloaded files
+  ansible.builtin.file:
+    path: "{{ rstudio_download_dir.path }}"
+    state: absent
+  when: "not 'rstudio' in ansible_facts.packages"
