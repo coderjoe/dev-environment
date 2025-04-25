@@ -15,7 +15,3 @@ shopt -s checkwinsize
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-#export AMDAPPSDKROOT=/home/coderjoe/local/bitcoin/AMD-APP-SDK-v2.5-RC2-lnx64/
-#export AMDAPPSDKSAMPLESROOT=/home/coderjoe/local/bitcoin/AMD-APP-SDK-v2.5-RC2-lnx64/
-#export LD_LIBRARY_PATH=${AMDAPPSDKROOT}lib/x86_64:${LD_LIBRARY_PATH}

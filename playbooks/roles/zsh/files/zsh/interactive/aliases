@@ -1,34 +1,17 @@
 # cd
 alias ..='cd ..'
 
+alias ls='ls -F --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
 # ls
-alias ls="ls -F --color=auto"
-alias l="ls -lAh --color=auto"
-alias ll="ls -l --color=auto"
-alias la='ls -A --color=auto'
-
-# git
-alias gl='git pull'
-alias gp='git push'
-alias gd='git diff'
-alias gc='git commit'
-alias gca='git commit -a'
-alias gco='git checkout'
-alias gb='git branch'
-alias gs='git status'
-alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
-alias gitchangelog='git log `git log -1 --format=%H -- CHANGELOG*`..; cat CHANGELOG*'
-alias githistory='git hist'
-
-# rails
-alias sc='script/console'
-alias ss='script/server'
-alias sg='script/generate'
-alias a='autotest -rails'
-alias tlog='tail -f log/development.log'
-alias scaffold='script/generate nifty_scaffold'
-alias migrate='rake db:migrate db:test:clone'
-alias rst='touch tmp/restart.txt'
+alias l="ls -lAh"
+alias ll="ls -l"
+alias la='ls -A'
 
 # commands starting with % for pasting from web
 alias %=' '

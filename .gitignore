@@ -3,3 +3,4 @@
 *vault-password*
 playbooks/vars
 tags
+.vscode
